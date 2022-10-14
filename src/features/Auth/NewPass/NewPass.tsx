@@ -1,13 +1,15 @@
 import React from 'react';
 import {useFormik} from 'formik';
-import {useParams} from 'react-router-dom';
-import {useAppDispatch} from 'app/store';
+import {Navigate, useParams} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from 'app/store';
 import {createNewPassword} from 'features/Auth/auth-reducer';
 import {Container} from '@mui/material';
+import {PATH} from 'app/RouteVariables';
 
 export const NewPass = () => {
 		const {token} = useParams() as { token: string }
 		const dispatch = useAppDispatch()
+		const newPasswordCreated = useAppSelector(state => state.auth.isNewPasswordCreated)
 		const formik = useFormik({
 				validate: values => {
 
@@ -19,6 +21,7 @@ export const NewPass = () => {
 						dispatch(createNewPassword({password: values.password, resetPasswordToken: token}))
 				}
 		})
+		if (newPasswordCreated) return <Navigate to={PATH.login}/>
 		return (
 				<div>
 						<Container>

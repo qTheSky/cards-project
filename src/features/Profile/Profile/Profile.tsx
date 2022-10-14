@@ -2,10 +2,10 @@ import React from 'react';
 import s from './Profile.module.scss'
 import noAva from './../../../assets/noAva.png'
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {Navigate} from 'react-router-dom';
+import {Link, Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {logout} from 'features/Auth/auth-reducer';
-import {Container} from '@mui/material';
+import {Button, Container} from '@mui/material';
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
@@ -21,16 +21,19 @@ export const Profile = () => {
 		return (
 				<div>
 						<Container>
-								<div>
+								<Link to={PATH.main}>
 										ARROW back to Packs List
-								</div>
+								</Link>
 								<div>
-										<div>
+										<div className={s.profileInfoWrapper}>
 												<h1>Personal Information</h1>
-												<img src={ava || noAva} alt="no ava"/>
+												<img style={{width: '96px', height: '96px', borderRadius: '50%'}} src={ava || noAva}
+												     alt="no ava"/>
 												<div>{name}</div>
-												<div>{email}</div>
-												<button onClick={onLogoutClick}>Log out</button>
+												<h2>{email}</h2>
+												<Button sx={{borderRadius: '20px'}} variant="outlined" color="info"
+												        onClick={onLogoutClick}>Log
+														out</Button>
 										</div>
 								</div>
 						</Container>

@@ -31,3 +31,19 @@
 		}
 	}
 }
+
+.checkEmail {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+
+	h1 {
+		@include title;
+		margin-bottom: 30px;
+	}
+
+	h2 {
+		@include grayAuthText;
+		margin: 30px;
+	}
+}

@@ -1,0 +1,24 @@
+@import "src/app/mixins";
+
+.profileInfoWrapper {
+	@include authFormsWrapper;
+	text-align: center;
+
+	h1 {
+		@include title;
+		margin-bottom: 30px;
+	}
+
+	img {
+		margin-bottom: 20px;
+	}
+
+	h2 {
+		margin-top: 20px;
+		@include grayAuthText
+	}
+
+	button {
+		margin-top: 30px;
+	}
+}
