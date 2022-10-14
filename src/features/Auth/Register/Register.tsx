@@ -4,7 +4,7 @@ import {useFormik} from 'formik';
 import {RegisterDataType} from 'api/authApi';
 import {register} from 'features/Auth/auth-reducer';
 import {useAppDispatch} from 'app/store';
-import {Button, FormControl, TextField} from '@mui/material';
+import {Button, TextField} from '@mui/material';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 
@@ -28,9 +28,9 @@ export const Register = () => {
 								<form onSubmit={formik.handleSubmit} className={s.form}>
 										<h1>Sign Up</h1>
 										<TextField className={s.input} variant="standard" label="Email" {...formik.getFieldProps('email')}/>
-										<TextField className={s.input} variant="standard"
+										<TextField className={s.input} variant="standard" type="password"
 										           label="Password" {...formik.getFieldProps('password')}/>
-										<TextField className={s.input} variant="standard"
+										<TextField className={s.input} variant="standard" type="password"
 										           label="Confirm password" {...formik.getFieldProps('confirmPassword')}/>
 										<Button type="submit" variant="contained">sign up</Button>
 										<h2>Already have an account?</h2>

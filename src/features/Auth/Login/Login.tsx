@@ -6,7 +6,7 @@ import {login} from 'features/Auth/auth-reducer';
 import {LoginDataType} from 'api/authApi';
 import {Link, Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
-import {Container} from '@mui/material';
+import {Button, Checkbox, FormControlLabel, TextField} from '@mui/material';
 
 export const Login = () => {
 		const dispatch = useAppDispatch()
@@ -25,21 +25,23 @@ export const Login = () => {
 		})
 		if (isLoggedIn) return <Navigate to={PATH.profile}/>
 		return (
-				<div>
-						<Container>
-								<div>
-										<form onSubmit={formik.handleSubmit} className={s.form}>
-												<h1>Sign in</h1>
-												<input placeholder="Email" {...formik.getFieldProps('email')}/>
-												<input placeholder="Password" {...formik.getFieldProps('password')}/>
-												<input type="checkbox" {...formik.getFieldProps('rememberMe')}/>remember me
-												<Link to={PATH.forgotPass}>forgot Password</Link>
-												<button type="submit">Sign In</button>
-												<span>Dont have an account?</span>
-												<Link to={PATH.register}>Sign Up</Link>
-										</form>
-								</div>
-						</Container>
+				<div className={s.signInPage}>
+						<div className={s.formWrapper}>
+								<form onSubmit={formik.handleSubmit} className={s.form}>
+										<h1>Sign in</h1>
+										<TextField className={s.input} variant="standard" label="Email" {...formik.getFieldProps('email')}/>
+										<TextField className={s.input} variant="standard"
+										           label="Password" {...formik.getFieldProps('password')}
+										           type="password"
+										/>
+										<FormControlLabel control={<Checkbox {...formik.getFieldProps('rememberMe')}/>}
+										                  label="Remember me"/>
+										<Link to={PATH.forgotPass} className={s.forgotPasswordLink}>Forgot Password?</Link>
+										<Button variant="contained" type="submit">Sign In</Button>
+										<h2>Dont have an account?</h2>
+										<Link to={PATH.register} className={s.signUpLink}>Sign Up</Link>
+								</form>
+						</div>
 				</div>
 		);
 };

@@ -3,3 +3,29 @@
 	font-size: 26px;
 	line-height: 32px;
 }
+
+@mixin authFormsWrapper {
+	margin: 60px auto;
+	padding: 35px;
+	max-width: 413px;
+	background: #FFFFFF;
+	box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+}
+
+@mixin grayAuthText {
+	opacity: 0.5;
+	font-size: 14px;
+}
+
+@mixin grayAuthTextBolder {
+	font-weight: 600;
+	opacity: 0.5;
+	font-size: 14px;
+}
+
+@mixin blueLink {
+	color: #366EFF;
+	font-weight: 600;
+	text-decoration: underline;
+}
