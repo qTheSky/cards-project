@@ -31,9 +31,7 @@
 
 			h2 {
 				margin-bottom: 15px;
-				font-weight: 600;
-				opacity: 0.5;
-				font-size: 14px;
+				@include grayAuthTextBolder;
 			}
 
 			button {

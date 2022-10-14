@@ -8,11 +8,27 @@ import {Link, Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {Button, Checkbox, FormControlLabel, TextField} from '@mui/material';
 
+
+type FormikErrorType = {
+		email?: string
+		password?: string
+}
+
 export const Login = () => {
 		const dispatch = useAppDispatch()
 		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 		const formik = useFormik({
 				validate: (values) => {
+						const errors: FormikErrorType = {}
+						if (!values.email) {
+								errors.email = 'Email is required'
+						}
+
+						if (!values.password) {
+								errors.password = 'Password is required'
+						}
+
+						return errors
 				},
 				initialValues: {
 						email: '',
@@ -29,9 +45,17 @@ export const Login = () => {
 						<div className={s.formWrapper}>
 								<form onSubmit={formik.handleSubmit} className={s.form}>
 										<h1>Sign in</h1>
-										<TextField className={s.input} variant="standard" label="Email" {...formik.getFieldProps('email')}/>
-										<TextField className={s.input} variant="standard"
-										           label="Password" {...formik.getFieldProps('password')}
+										<TextField helperText={formik.touched.email && formik.errors.email}
+										           error={formik.touched.email && !!formik.errors.email}
+										           className={s.input}
+										           variant="standard"
+										           label="Email"
+										           {...formik.getFieldProps('email')}/>
+										<TextField helperText={formik.touched.password && formik.errors.password}
+										           error={formik.touched.password && !!formik.errors.password} className={s.input}
+										           variant="standard"
+										           label="Password"
+										           {...formik.getFieldProps('password')}
 										           type="password"
 										/>
 										<FormControlLabel control={<Checkbox {...formik.getFieldProps('rememberMe')}/>}
