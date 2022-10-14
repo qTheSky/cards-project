@@ -1,9 +1,9 @@
 import React from 'react';
-import {Container} from 'components/common/Container';
 import {useFormik} from 'formik';
 import {useParams} from 'react-router-dom';
 import {useAppDispatch} from 'app/store';
 import {createNewPassword} from 'features/Auth/auth-reducer';
+import {Container} from '@mui/material';
 
 export const NewPass = () => {
 		const {token} = useParams() as { token: string }

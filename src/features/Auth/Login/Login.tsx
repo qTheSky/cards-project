@@ -1,5 +1,4 @@
 import React from 'react';
-import {Container} from 'components/common/Container';
 import s from './Login.module.scss'
 import {useFormik} from 'formik';
 import {useAppDispatch, useAppSelector} from 'app/store';
@@ -7,6 +6,7 @@ import {login} from 'features/Auth/auth-reducer';
 import {LoginDataType} from 'api/authApi';
 import {Link, Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
+import {Container} from '@mui/material';
 
 export const Login = () => {
 		const dispatch = useAppDispatch()
@@ -36,7 +36,7 @@ export const Login = () => {
 												<Link to={PATH.forgotPass}>forgot Password</Link>
 												<button type="submit">Sign In</button>
 												<span>Dont have an account?</span>
-												<a>Sign Up</a>
+												<Link to={PATH.register}>Sign Up</Link>
 										</form>
 								</div>
 						</Container>

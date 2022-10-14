@@ -1,11 +1,11 @@
 import React from 'react';
-import {Container} from 'components/common/Container';
 import s from './Profile.module.scss'
 import noAva from './../../../assets/noAva.png'
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {logout} from 'features/Auth/auth-reducer';
+import {Container} from '@mui/material';
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
@@ -19,7 +19,7 @@ export const Profile = () => {
 		}
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		return (
-				<div className={s.profilePage}>
+				<div>
 						<Container>
 								<div>
 										ARROW back to Packs List

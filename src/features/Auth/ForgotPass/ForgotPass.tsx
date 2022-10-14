@@ -1,10 +1,10 @@
 import React from 'react';
-import {Container} from 'components/common/Container';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {useFormik} from 'formik';
 import {forgotPassword} from 'features/Auth/auth-reducer';
 import {useAppDispatch} from 'app/store';
+import {Container} from '@mui/material';
 
 export const ForgotPass = () => {
 		const dispatch = useAppDispatch()
