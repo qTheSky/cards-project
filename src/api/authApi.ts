@@ -39,7 +39,7 @@ export type CreateNewPasswordDataType = {
     password: string
     resetPasswordToken: string
 }
-export type UserDataType<T = string, D = number> = {
+export type UserDataType = {
     _id: string
     email: string
     rememberMe?: boolean
@@ -50,7 +50,5 @@ export type UserDataType<T = string, D = number> = {
     created: string
     updated: string
     __v: number
-    token: T
-    tokenDeathTime: D
     avatar?: null | string
 }
