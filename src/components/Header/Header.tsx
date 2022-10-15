@@ -5,10 +5,13 @@ import {Button, Container, LinearProgress} from '@mui/material';
 import {Link, useLocation} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import logo from 'assets/logo.svg'
+import noAvatar from 'assets/noAva.png'
 
 export const Header = () => {
 		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-		const isRequestSending = useAppSelector(state=>state.app.isLoading)
+		const isRequestSending = useAppSelector(state => state.app.isLoading)
+		const userName = useAppSelector(state => state.profile.profile.name)
+		const userAvatar = useAppSelector(state => state.profile.profile.avatar)
 		const {pathname} = useLocation()
 		return (
 				<>
@@ -18,13 +21,20 @@ export const Header = () => {
 												<Link to={PATH.main}>
 														<img src={logo} alt="it-inc-logo"/>
 												</Link>
-												{
-														isLoggedIn
-																? <Link to={PATH.profile}>profile</Link>
-																: pathname !== PATH.login &&
-																<Link to={PATH.login}>
-																		<Button variant="contained" size="small">Sign In</Button>
-																</Link>
+												{isLoggedIn
+														? pathname !== PATH.profile &&
+														<Link to={PATH.profile}>
+																<div className={s.profile}>
+																		<h2>{userName}</h2>
+																		<img style={{width: '36px', height: '36px', borderRadius: '50%'}}
+																		     src={userAvatar || noAvatar}
+																		     alt="ava"/>
+																</div>
+														</Link>
+														: pathname !== PATH.login &&
+														<Link to={PATH.login}>
+																<Button variant="contained" size="small">Sign In</Button>
+														</Link>
 												}
 										</div>
 								</Container>
