@@ -18,11 +18,16 @@ export const EditableText = (props: EditableTextPropsType) => {
 				setEdit(false)
 		}
 
+		const onEnterPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+				if (e.key === 'Enter') changeTextHandle()
+		}
+
 		return (
 				<div>
 						{edit
 								? <TextField variant="standard"
 								             onBlur={changeTextHandle}
+								             onKeyDown={onEnterPress}
 								             value={newText}
 								             autoFocus
 								             onChange={(e) => setNewText(e.currentTarget.value)}/>

@@ -2,12 +2,13 @@ import React from 'react';
 import s from './Profile.module.scss'
 import noAva from './../../../assets/noAva.png'
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {Link, Navigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {logout} from 'features/Auth/auth-reducer';
 import {Button, Container} from '@mui/material';
 import {updateProfile} from 'features/Profile/profile-reducer';
 import {EditableText} from 'components/EditableText/EditableText';
+import {BackToPackListLink} from 'components/BackToPackListArrow/BackToPackListLink';
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
@@ -28,9 +29,7 @@ export const Profile = () => {
 		return (
 				<div>
 						<Container>
-								<Link to={PATH.main}>
-										ARROW back to Packs List
-								</Link>
+								<BackToPackListLink/>
 								<div>
 										<div className={s.profileInfoWrapper}>
 												<h1>Personal Information</h1>
