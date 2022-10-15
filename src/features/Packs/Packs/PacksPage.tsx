@@ -3,63 +3,53 @@ import {useAppDispatch, useAppSelector} from 'app/store';
 import {Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {
-		Button,
-		Container,
-		Paper,
-		Table,
-		TableBody,
-		TableCell,
-		TableContainer,
-		TableHead,
-		TableRow
+    Button,
+    Container,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer, TableFooter,
+    TableHead, TablePagination,
+    TableRow
 } from '@mui/material';
-import {fetchPacks} from 'features/Packs/packs-reducer';
+import {fetchPacks, setPackSearchParams} from 'features/Packs/packs-reducer';
+import dayjs from "dayjs";
+import {PacksTable} from "./PacksTable";
+import {PackFiltration} from "./PackFiltration";
 
 export const PacksPage = () => {
-		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-		const packs = useAppSelector(state => state.packs.packsState.cardPacks)
-		const dispatch = useAppDispatch()
-		useEffect(() => {
-				dispatch(fetchPacks())
-		}, [])
-		if (!isLoggedIn) return <Navigate to={PATH.login}/>
-		return (
-				<div>
-						<Container>
-								<div style={{display: 'flex', justifyContent: 'space-between'}}>
-										<h1>Packs list</h1>
-										<Button variant="contained">Add new pack</Button>
-								</div>
-								<div>SEARCH</div>
+    const dispatch = useAppDispatch()
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const packs = useAppSelector(state => state.packs.packsState.cardPacks)
+    const packTotalCount = useAppSelector(state => state.packs.packsState.cardPacksTotalCount)
+    const currentPage = useAppSelector(state => state.packs.searchParams.page)
+    const rowsPerPage = useAppSelector(state => state.packs.searchParams.pageCount)
+    const userIdFilter = useAppSelector(state => state.packs.searchParams.user_id)
+    const packName = useAppSelector(state => state.packs.searchParams.packName)
 
-								<TableContainer component={Paper}>
-										<Table sx={{minWidth: 650}} aria-label="simple table">
+    useEffect(() => {
+        if (!isLoggedIn) {
+            return
+        }
+        dispatch(fetchPacks())
+    }, [currentPage, rowsPerPage, userIdFilter, packName])
 
-												<TableHead sx={{backgroundColor: '#EFEFEF'}}>
-														<TableRow>
-																<TableCell>Name</TableCell>
-																<TableCell>Cards</TableCell>
-																<TableCell>Last updated</TableCell>
-																<TableCell>Created by</TableCell>
-																<TableCell>Actions</TableCell>
-														</TableRow>
-												</TableHead>
 
-												<TableBody>
-														{packs.map(pack => (
-																<TableRow key={pack._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-																		<TableCell>{pack.name}</TableCell>
-																		<TableCell>{pack.cardsCount}</TableCell>
-																		<TableCell>{String(pack.updated)}</TableCell>
-																		<TableCell>{pack.user_name}</TableCell>
-																		<TableCell>images</TableCell>
-																</TableRow>
-														))}
-												</TableBody>
-										</Table>
-								</TableContainer>
-
-						</Container>
-				</div>
-		);
+    if (!isLoggedIn) return <Navigate to={PATH.login}/>
+    return (
+        <div>
+            <Container>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <h1>Packs list</h1>
+                    <Button variant="contained">Add new pack</Button>
+                </div>
+                <PackFiltration/>
+                <PacksTable packs={packs}
+                            currentPage={currentPage}
+                            packTotalCount={packTotalCount}
+                            rowsPerPage={rowsPerPage}/>
+            </Container>
+        </div>
+    );
 };
