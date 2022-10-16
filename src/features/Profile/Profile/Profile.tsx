@@ -7,8 +7,8 @@ import {PATH} from 'app/RouteVariables';
 import {logout} from 'features/Auth/auth-reducer';
 import {Button, Container} from '@mui/material';
 import {updateProfile} from 'features/Profile/profile-reducer';
-import {EditableText} from 'components/EditableText/EditableText';
-import {BackToPackListLink} from 'components/BackToPackListArrow/BackToPackListLink';
+import {EditableText} from 'common/components/EditableText/EditableText';
+import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPackListLink';
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
@@ -16,7 +16,6 @@ export const Profile = () => {
 		const name = useAppSelector(state => state.profile.profile.name)
 		const ava = useAppSelector(state => state.profile.profile.avatar)
 		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-
 
 		const onLogoutClick = () => {
 				dispatch(logout())

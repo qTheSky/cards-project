@@ -39,7 +39,7 @@ export const Login = () => {
             dispatch(login({email: values.email, password: values.password, rememberMe: values.rememberMe}))
         }
     })
-    if (isLoggedIn) return <Navigate to={PATH.profile}/>
+    if (isLoggedIn) return <Navigate to={PATH.main}/>
     return (
         <div className={s.signInPage}>
             <div className={s.formWrapper}>

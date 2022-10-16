@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
-import {Header} from 'components/Header/Header';
-import {ErrorSnackbar} from 'components/ErrorSnackBar';
+import {Header} from 'common/components/Header/Header';
+import {ErrorSnackbar} from 'common/components/ErrorSnackBar';
 
 export const MainLayout = () => {
 		return (

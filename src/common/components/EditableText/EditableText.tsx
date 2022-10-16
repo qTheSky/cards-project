@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import s from './EditableText.module.scss'
+import s from 'common/components/EditableText/EditableText.module.scss'
 import editableText from 'assets/editableName.svg';
 import {TextField} from '@mui/material';
 

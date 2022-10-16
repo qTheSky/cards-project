@@ -1,5 +1,5 @@
 import React from 'react';
-import s from './Header.module.scss'
+import s from 'common/components/Header/Header.module.scss'
 import {useAppSelector} from 'app/store';
 import {Button, Container, LinearProgress} from '@mui/material';
 import {Link, useLocation} from 'react-router-dom';
@@ -15,7 +15,7 @@ export const Header = () => {
 		const {pathname} = useLocation()
 		return (
 				<>
-						<header className={s.header}>
+						<header className={s.header} style={{position: 'relative'}}>
 								<Container>
 										<div className={s.logoAndButton}>
 												<Link to={PATH.main}>
@@ -38,8 +38,9 @@ export const Header = () => {
 												}
 										</div>
 								</Container>
+								{isRequestSending &&
+										<div style={{position: 'absolute', bottom: '0', width: '100%'}}><LinearProgress/></div>}
 						</header>
-						{isRequestSending && <LinearProgress/>}
 				</>
 		);
 };
