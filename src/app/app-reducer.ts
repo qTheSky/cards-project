@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {authAPI} from 'api/authApi';
-import {appActions} from 'features/CommonActions/App';
+import {appActions} from 'common/CommonActions/App';
 
 export const initializeApp = createAsyncThunk('app/initializeApp',
 		async (_, thunkAPI) => {

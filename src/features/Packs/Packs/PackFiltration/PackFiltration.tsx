@@ -43,9 +43,9 @@ export const PackFiltration = () => {
 		}, [debouncedValue])
 
 		return (
-				<div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+				<div style={{display: 'flex', gap: '5px', justifyContent: 'space-between', alignItems: 'center'}}>
 						<div>
-								<TextField value={packNameSearch} onChange={onInputChange} size="small" variant="outlined"
+								<TextField value={packNameSearch} onChange={onInputChange} size="small"
 								           label="Pack name"/>
 						</div>
 						<div>

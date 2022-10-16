@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {UserDataType} from 'api/authApi';
 import {login, logout} from 'features/Auth/auth-reducer';
 import {initializeApp} from 'app/app-reducer';
-import {appActions} from "../CommonActions/App";
+import {appActions} from "../../common/CommonActions/App";
 import {profileApi} from 'api/profileApi';
 import {handleErrors} from 'utils/error-utils';
 

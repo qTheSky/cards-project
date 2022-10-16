@@ -8,6 +8,8 @@ export const FiltrationPackRange = () => {
 		const dispatch = useAppDispatch()
 		const minCardsCountFromState = useAppSelector(state => state.packs.packsState.minCardsCount)
 		const maxCardsCountFromState = useAppSelector(state => state.packs.packsState.maxCardsCount)
+		const minCardsCountFromSearchParams = useAppSelector(state => state.packs.searchParams.min)
+		const maxCardsCountFromSearchParams = useAppSelector(state => state.packs.searchParams.max)
 		const [value, setValue] = React.useState<number[]>([0, maxCardsCountFromState])
 		const debouncedValue = useDebounce(value, 750)
 
@@ -15,6 +17,12 @@ export const FiltrationPackRange = () => {
 		const handleRangeChange = (event: Event, newValue: number | number[]) => {
 				setValue(newValue as number[]);
 		}
+		useEffect(() => {
+				if (minCardsCountFromSearchParams === minCardsCountFromState && maxCardsCountFromSearchParams === maxCardsCountFromState) {
+						setValue([minCardsCountFromSearchParams, maxCardsCountFromSearchParams])
+				}
+		}, [minCardsCountFromSearchParams, maxCardsCountFromSearchParams])
+
 		useEffect(() => {
 				setValue([minCardsCountFromState, maxCardsCountFromState])
 		}, [minCardsCountFromState, maxCardsCountFromState])

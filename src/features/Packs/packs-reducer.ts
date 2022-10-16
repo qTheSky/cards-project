@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {CreatePackDataType, GetPackResponse, packsAPI, PacksSearchParams, PackType} from 'api/packsApi';
 import {AppRootStateType} from 'app/store';
-import {appActions} from '../CommonActions/App';
+import {appActions} from '../../common/CommonActions/App';
 import {handleErrors} from '../../utils/error-utils';
 
 

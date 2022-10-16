@@ -15,8 +15,6 @@ import dayjs from 'dayjs';
 import {deletePack, setPackSearchParams} from '../packs-reducer';
 import {useAppDispatch, useAppSelector} from '../../../app/store';
 import {PackType} from '../../../api/packsApi';
-import deleteImg from 'assets/deleteAction.svg'
-import editImg from 'assets/editAction.svg'
 import SchoolIcon from '@mui/icons-material/School';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';

@@ -1,6 +1,6 @@
 import React from 'react'
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {appActions} from 'features/CommonActions/App';
+import {appActions} from 'common/CommonActions/App';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
 

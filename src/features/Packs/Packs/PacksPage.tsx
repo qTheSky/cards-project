@@ -18,6 +18,7 @@ export const PacksPage = () => {
 		const packName = useAppSelector(state => state.packs.searchParams.packName)
 		const minCardsCount = useAppSelector(state => state.packs.searchParams.min)
 		const maxCardsCount = useAppSelector(state => state.packs.searchParams.max)
+		const maxCardsCountFromState = useAppSelector(state => state.packs.packsState.maxCardsCount)
 
 		const addNewPackHandle = () => {
 				dispatch(createPack({name: 'Hardcoded name', private: false}))
@@ -28,7 +29,13 @@ export const PacksPage = () => {
 						return
 				}
 				dispatch(fetchPacks())
-		}, [currentPage, rowsPerPage, userIdFilter, packName, minCardsCount, maxCardsCount])
+		}, [currentPage, rowsPerPage, userIdFilter, packName, minCardsCount])
+		useEffect(() => {
+				if (maxCardsCount === 0 || maxCardsCount === maxCardsCountFromState) {
+						return
+				}
+				dispatch(fetchPacks())
+		}, [maxCardsCount])
 
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		return (
