@@ -11,7 +11,7 @@ export const FiltrationPackRange = () => {
 		const minCardsCountFromSearchParams = useAppSelector(state => state.packs.searchParams.min)
 		const maxCardsCountFromSearchParams = useAppSelector(state => state.packs.searchParams.max)
 		const [value, setValue] = React.useState<number[]>([0, maxCardsCountFromState])
-		const debouncedValue = useDebounce(value, 750)
+		const debouncedValue = useDebounce(value, 1000)
 
 
 		const handleRangeChange = (event: Event, newValue: number | number[]) => {
@@ -43,6 +43,7 @@ export const FiltrationPackRange = () => {
 								valueLabelDisplay="auto"
 								min={minCardsCountFromState}
 								max={maxCardsCountFromState}
+								disableSwap
 						/>
 				</div>
 		);
