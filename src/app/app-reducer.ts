@@ -22,7 +22,7 @@ export const slice = createSlice({
 		reducers: {},
 		extraReducers: builder => {
 				builder
-						.addCase(initializeApp.fulfilled, (state, action) => {
+						.addCase(initializeApp.fulfilled, (state) => {
 								state.isInitialized = true
 						})
 						.addCase(initializeApp.rejected, (state) => {
@@ -36,6 +36,7 @@ export const slice = createSlice({
 						})
 		}
 })
+
 
 export const appReducer = slice.reducer
 

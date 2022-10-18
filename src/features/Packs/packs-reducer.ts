@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {CreatePackDataType, GetPackResponse, packsAPI, PacksSearchParams, PackType} from 'api/packsApi';
+import {CreatePackDataType, EditPackType, GetPackResponse, packsAPI, PacksSearchParams, PackType} from 'api/packsApi';
 import {AppRootStateType} from 'app/store';
 import {appActions} from 'common/CommonActions/App';
 import {handleErrors} from 'utils/error-utils';
@@ -22,7 +22,6 @@ export const createPack = createAsyncThunk('packs/createNewPack',
 				thunkAPI.dispatch(appActions.setIsLoading(true))
 				try {
 						await packsAPI.createPack(param)
-						thunkAPI.dispatch(fetchPacks())
 				} catch (e) {
 						return handleErrors(e, thunkAPI)
 				}
@@ -32,7 +31,15 @@ export const deletePack = createAsyncThunk('packs/deletePack',
 				thunkAPI.dispatch(appActions.setIsLoading(true))
 				try {
 						await packsAPI.deletePack(packId)
-						thunkAPI.dispatch(fetchPacks())
+				} catch (e) {
+						return handleErrors(e, thunkAPI)
+				}
+		})
+export const editPack = createAsyncThunk('packs/editPack',
+		async (param:EditPackType, thunkAPI) => {
+				thunkAPI.dispatch(appActions.setIsLoading(true))
+				try {
+						await packsAPI.editPack(param)
 				} catch (e) {
 						return handleErrors(e, thunkAPI)
 				}

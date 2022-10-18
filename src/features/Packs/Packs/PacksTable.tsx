@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-		Icon,
 		IconButton,
 		Paper,
 		Table,
@@ -12,14 +11,14 @@ import {
 		TableRow
 } from '@mui/material';
 import dayjs from 'dayjs';
-import {deletePack, setPackSearchParams} from '../packs-reducer';
-import {useAppDispatch, useAppSelector} from '../../../app/store';
-import {PackType} from '../../../api/packsApi';
+import {setPackSearchParams} from '../packs-reducer';
+import {useAppDispatch, useAppSelector} from 'app/store';
+import {PackType} from 'api/packsApi';
 import SchoolIcon from '@mui/icons-material/School';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
+import {DeletePackModal} from 'features/Modals/DeletePackModal';
+import {EditPackModal} from 'features/Modals/EditPackModal';
 
 interface IProps {
 		packs: PackType[]
@@ -36,9 +35,6 @@ export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IP
 		}
 		const onRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 				dispatch(setPackSearchParams({pageCount: +event.target.value}))
-		}
-		const onClickDeletePack = (packId: string) => {
-				dispatch(deletePack(packId))
 		}
 
 		return (
@@ -72,13 +68,10 @@ export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IP
 		                                <IconButton disabled={pack.cardsCount === 0}>
 				                                <SchoolIcon/>
 																		</IconButton>
-		                                <IconButton disabled={pack.user_id !== authUserId}>
-				                               <EditIcon/>
-																		</IconButton>
-		                                <IconButton disabled={pack.user_id !== authUserId}
-		                                            onClick={() => onClickDeletePack(pack._id)}>
-				                                <DeleteIcon/>
-																		</IconButton>
+		                                <EditPackModal packName={pack.name} isPrivatePack={pack.private} id={pack._id}
+		                                               disabled={pack.user_id !== authUserId}/>
+		                               <DeletePackModal packId={pack._id} packName={pack.name}
+		                                                disabled={pack.user_id !== authUserId}/>
                                 </span>
 														</TableCell>
 												</TableRow>

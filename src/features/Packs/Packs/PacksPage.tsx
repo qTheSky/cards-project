@@ -2,10 +2,11 @@ import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {Navigate} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
-import {Button, Container} from '@mui/material';
-import {createPack, fetchPacks} from 'features/Packs/packs-reducer';
+import {Container} from '@mui/material';
+import {fetchPacks} from 'features/Packs/packs-reducer';
 import {PacksTable} from './PacksTable';
 import {PackFiltration} from 'features/Packs/Packs/PackFiltration/PackFiltration';
+import {AddPackModal} from 'features/Modals/AddPackModal';
 
 export const PacksPage = () => {
 		const dispatch = useAppDispatch()
@@ -19,13 +20,10 @@ export const PacksPage = () => {
 		const minCardsCount = useAppSelector(state => state.packs.searchParams.min)
 		const maxCardsCount = useAppSelector(state => state.packs.searchParams.max)
 
-		const addNewPackHandle = () => {
-				dispatch(createPack({name: 'Hardcoded name', private: false}))
-		}
 
 		useEffect(() => {
 				dispatch(fetchPacks())
-		}, [currentPage, rowsPerPage, userIdFilter, packName, minCardsCount,maxCardsCount])
+		}, [currentPage, rowsPerPage, userIdFilter, packName, minCardsCount, maxCardsCount])
 
 
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
@@ -35,7 +33,7 @@ export const PacksPage = () => {
 								<div
 										style={{display: 'flex', justifyContent: 'space-between', marginTop: '25px', marginBottom: '25px'}}>
 										<h1>Packs list</h1>
-										<Button variant="contained" onClick={addNewPackHandle}>Add new pack</Button>
+										<AddPackModal/>
 								</div>
 								<PackFiltration/>
 								<PacksTable packs={packs}
