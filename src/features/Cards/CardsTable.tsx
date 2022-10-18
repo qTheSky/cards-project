@@ -12,15 +12,21 @@ import {
 import dayjs from 'dayjs';
 import {CardType} from 'api/cardsApi';
 import {useAppSelector} from 'app/store';
+import {DeleteCardModal} from 'features/Modals/CardsModals/DeleteCardModal';
+import {EditCardModal} from 'features/Modals/CardsModals/EditCardModal';
 
 interface IProps {
 		cards: CardType[]
+		isOwner: boolean
+		packId: string
 }
 
-export const CardsTable = ({cards}: IProps) => {
+export const CardsTable = ({cards, isOwner, packId}: IProps) => {
 		const cardsTotalCount = useAppSelector(state => state.cards.cardsState.cardsTotalCount)
 		const rowsPerPage = useAppSelector(state => state.cards.searchParams.pageCount)
 		const currentPage = useAppSelector(state => state.cards.searchParams.page)
+
+
 		return (
 				<>
 						<TextField fullWidth size="small" label="Search by question"/>
@@ -31,8 +37,9 @@ export const CardsTable = ({cards}: IProps) => {
 												<TableRow>
 														<TableCell sx={{width: '30%'}}>Question</TableCell>
 														<TableCell sx={{width: '30%'}}>Answer</TableCell>
-														<TableCell sx={{width: '20%'}}>Last updated</TableCell>
-														<TableCell sx={{width: '20%'}}>Grade</TableCell>
+														<TableCell>Last updated</TableCell>
+														<TableCell>Grade</TableCell>
+														{isOwner && <TableCell>Actions</TableCell>}
 												</TableRow>
 										</TableHead>
 
@@ -43,6 +50,17 @@ export const CardsTable = ({cards}: IProps) => {
 																<TableCell>{card.answer}</TableCell>
 																<TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
 																<TableCell><Rating value={card.grade} readOnly/></TableCell>
+																{isOwner &&
+																		<TableCell sx={{display: 'flex'}}>
+																				<EditCardModal cardId={card._id}
+																				               answer={card.answer}
+																				               question={card.question}
+																				               packId={card.cardsPack_id}
+																				/>
+																				<DeleteCardModal packId={packId} cardId={card._id}
+																				                 cardName={card.answer}/>
+																		</TableCell>}
+
 														</TableRow>
 												))}
 												{cards.length > 0 &&

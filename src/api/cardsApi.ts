@@ -4,19 +4,28 @@ export const cardsAPI = {
 		getCards(params: CardsSearchParams) {
 				return instance.get<GetCardsResponse>('cards/card', {params})
 		},
+		createCard(params: CreateCardType) {
+				return instance.post('cards/card', {card: params})
+		},
+		deleteCard(cardId: string) {
+				return instance.delete(`cards/card/?id=${cardId}`)
+		},
+		editCard(params: EditCardType) {
+				return instance.put('cards/card', {card: params})
+		},
 }
 export type GetCardsResponse = {
 		cards: CardType[]
 		cardsTotalCount: number
 		maxGrade: number
 		minGrade: number
-		packCreated:Date
-		packName:string
-		packPrivate:boolean
-		packUpdated:Date
-		packUserId:string
-		page:number
-		pageCount:number
+		packCreated: Date
+		packName: string
+		packPrivate: boolean
+		packUpdated: Date
+		packUserId: string
+		page: number
+		pageCount: number
 }
 export type CardsSearchParams = {
 		cardAnswer: string
@@ -45,4 +54,14 @@ export type CardType = {
 		updated: Date
 		user_id: string
 		_id: string
+}
+export type CreateCardType = {
+		cardsPack_id: string
+		question: string
+		answer: string
+}
+export type EditCardType = {
+		_id: string
+		question: string
+		answer: string
 }

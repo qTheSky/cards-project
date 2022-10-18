@@ -6,7 +6,7 @@ import {Container} from '@mui/material';
 import {fetchPacks} from 'features/Packs/packs-reducer';
 import {PacksTable} from './PacksTable';
 import {PackFiltration} from 'features/Packs/Packs/PackFiltration/PackFiltration';
-import {AddPackModal} from 'features/Modals/AddPackModal';
+import {AddPackModal} from 'features/Modals/PacksModals/AddPackModal';
 
 export const PacksPage = () => {
 		const dispatch = useAppDispatch()

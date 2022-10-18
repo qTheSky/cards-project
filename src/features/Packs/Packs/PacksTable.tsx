@@ -17,8 +17,8 @@ import {PackType} from 'api/packsApi';
 import SchoolIcon from '@mui/icons-material/School';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
-import {DeletePackModal} from 'features/Modals/DeletePackModal';
-import {EditPackModal} from 'features/Modals/EditPackModal';
+import {DeletePackModal} from 'features/Modals/PacksModals/DeletePackModal';
+import {EditPackModal} from 'features/Modals/PacksModals/EditPackModal';
 
 interface IProps {
 		packs: PackType[]
@@ -63,16 +63,14 @@ export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IP
 														<TableCell>{pack.cardsCount}</TableCell>
 														<TableCell>{dayjs(pack.updated).format('DD.MM.YYYY')}</TableCell>
 														<TableCell>{pack.user_name}</TableCell>
-														<TableCell>
-                                <span style={{display: 'flex', gap: '0px', justifyContent: 'flex-start'}}>
-		                                <IconButton disabled={pack.cardsCount === 0}>
-				                                <SchoolIcon/>
-																		</IconButton>
-		                                <EditPackModal packName={pack.name} isPrivatePack={pack.private} id={pack._id}
-		                                               disabled={pack.user_id !== authUserId}/>
-		                               <DeletePackModal packId={pack._id} packName={pack.name}
-		                                                disabled={pack.user_id !== authUserId}/>
-                                </span>
+														<TableCell sx={{display: 'flex', justifyContent: 'flex-start'}}>
+																<IconButton disabled={pack.cardsCount === 0}>
+																		<SchoolIcon/>
+																</IconButton>
+																<EditPackModal packName={pack.name} isPrivatePack={pack.private} id={pack._id}
+																               disabled={pack.user_id !== authUserId}/>
+																<DeletePackModal packId={pack._id} packName={pack.name}
+																                 disabled={pack.user_id !== authUserId}/>
 														</TableCell>
 												</TableRow>
 										))}
