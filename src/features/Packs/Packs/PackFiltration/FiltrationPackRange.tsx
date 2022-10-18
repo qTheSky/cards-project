@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Slider} from '@mui/material';
-import {useDebounce} from 'utils/useDebounce';
+import {useDebounce} from 'common/hooks/useDebounce';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {setPackSearchParams} from 'features/Packs/packs-reducer';
 

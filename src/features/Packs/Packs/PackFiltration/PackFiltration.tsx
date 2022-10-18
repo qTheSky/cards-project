@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Button, IconButton, TextField} from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {clearPackSearchParams, setPackSearchParams} from 'features/Packs/packs-reducer';
-import {useDebounce} from 'utils/useDebounce';
+import {useDebounce} from 'common/hooks/useDebounce';
 import {FiltrationPackRange} from 'features/Packs/Packs/PackFiltration/FiltrationPackRange';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 

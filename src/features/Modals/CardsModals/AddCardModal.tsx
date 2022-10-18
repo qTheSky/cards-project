@@ -20,6 +20,8 @@ export const AddCardModal = ({packId}: IProps) => {
 				await dispatch(createCard({cardsPack_id: packId, answer, question}))
 				await dispatch(fetchCards(packId))
 				setOpen(false)
+				setQuestion('')
+				setAnswer('')
 		}
 
 		return (
