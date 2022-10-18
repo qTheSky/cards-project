@@ -1,9 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from 'common/CommonActions/App';
-import {cardsAPI, CardType, CardsSearchParams, GetCardsResponse, CreateCardType, EditCardType} from 'api/cardsApi';
+import {cardsAPI, CardsSearchParams, CardType, CreateCardType, EditCardType, GetCardsResponse} from 'api/cardsApi';
 import {AppRootStateType} from 'app/store';
 import {handleErrors} from 'utils/error-utils';
-import {PacksSearchParams} from 'api/packsApi';
 
 
 export const fetchCards = createAsyncThunk('cards/fetchCards',
@@ -62,8 +61,8 @@ export const slice = createSlice({
 				} as CardsSearchParams,
 		},
 		reducers: {
-				setCardsSearchParams(state, action: PayloadAction<PacksSearchParams>) {
-
+				setCardsSearchParams(state, action: PayloadAction<SetCardsSearchParams>) {
+						state.searchParams = {...slice.getInitialState().searchParams, ...action.payload}
 				},
 		},
 		extraReducers: builder => {
@@ -73,5 +72,15 @@ export const slice = createSlice({
 						})
 		}
 })
-
+export const {setCardsSearchParams} = slice.actions
 export const cardsReducer = slice.reducer
+export type SetCardsSearchParams = {
+		cardAnswer?: string
+		cardQuestion?: string
+		cardsPack_id?: string
+		min?: number
+		max?: number
+		sortCards?: string
+		page?: number
+		pageCount?: number
+}

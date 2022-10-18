@@ -1,38 +1,39 @@
 import React from 'react';
 import {
-		Paper, Rating,
+		Paper,
+		Rating,
 		Table,
 		TableBody,
 		TableCell,
 		TableContainer,
 		TableHead,
 		TablePagination,
-		TableRow, TextField
+		TableRow
 } from '@mui/material';
 import dayjs from 'dayjs';
-import {CardType} from 'api/cardsApi';
 import {useAppSelector} from 'app/store';
 import {DeleteCardModal} from 'features/Modals/CardsModals/DeleteCardModal';
 import {EditCardModal} from 'features/Modals/CardsModals/EditCardModal';
+import {useParams} from 'react-router-dom';
 
 interface IProps {
-		cards: CardType[]
-		isOwner: boolean
-		packId: string
 }
 
-export const CardsTable = ({cards, isOwner, packId}: IProps) => {
+export const CardsTable = ({}: IProps) => {
+		const {packId} = useParams() as {packId:string}
 		const cardsTotalCount = useAppSelector(state => state.cards.cardsState.cardsTotalCount)
 		const rowsPerPage = useAppSelector(state => state.cards.searchParams.pageCount)
 		const currentPage = useAppSelector(state => state.cards.searchParams.page)
+		const authUserId = useAppSelector(state=>state.profile.profile._id)
+		const cards = useAppSelector(state=>state.cards.cardsState.cards)
+		const packOwnerId = useAppSelector(state=>state.cards.cardsState.packUserId)
+		const isOwner = authUserId === packOwnerId
+
 
 
 		return (
-				<>
-						<TextField fullWidth size="small" label="Search by question"/>
 						<TableContainer component={Paper} sx={{margin: '25px 0'}}>
 								<Table sx={{minWidth: 650}} aria-label="simple table">
-
 										<TableHead sx={{backgroundColor: '#EFEFEF'}}>
 												<TableRow>
 														<TableCell sx={{width: '30%'}}>Question</TableCell>
@@ -65,21 +66,20 @@ export const CardsTable = ({cards, isOwner, packId}: IProps) => {
 												))}
 												{cards.length > 0 &&
 														<TableRow>
-																<TablePagination
-																		rowsPerPageOptions={[5, 10, 25, 50, 100]}
-																		count={cardsTotalCount}
-																		rowsPerPage={rowsPerPage}
-																		page={currentPage - 1}
-																		onPageChange={() => {
-																		}}
-																		onRowsPerPageChange={() => {
-																		}}
+																<TablePagination labelRowsPerPage="Cards per page"
+																                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
+																                 count={cardsTotalCount}
+																                 rowsPerPage={rowsPerPage}
+																                 page={currentPage - 1}
+																                 onPageChange={() => {
+																                 }}
+																                 onRowsPerPageChange={() => {
+																                 }}
 																/>
 														</TableRow>
 												}
 										</TableBody>
 								</Table>
 						</TableContainer>
-				</>
 		);
 };

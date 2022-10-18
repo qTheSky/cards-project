@@ -7,5 +7,7 @@ export enum PATH {
 		setNewPass = '/set-new-password/:token',
 		profile = '/profile',
 		pack = '/pack/',
-		card = '/pack/:id'
+		cards = '/pack/:packId',
+		learn = '/pack/learn/',
+		learnPage = '/pack/learn/:id',
 }

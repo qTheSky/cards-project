@@ -8,7 +8,7 @@ export const FiltrationPackRange = () => {
 		const dispatch = useAppDispatch()
 		const minCardsCountFromState = useAppSelector(state => state.packs.packsState.minCardsCount)
 		const maxCardsCountFromState = useAppSelector(state => state.packs.packsState.maxCardsCount)
-		const [value, setValue] = React.useState<number[]>([minCardsCountFromState || 0, maxCardsCountFromState || 0])
+		const [value, setValue] = React.useState<number[]>([0, 0])
 		const debouncedValue = useDebounce(value, 1000)
 
 		const handleRangeChange = (event: Event, newValue: number | number[]) => {
@@ -17,7 +17,7 @@ export const FiltrationPackRange = () => {
 
 		useEffect(() => {
 				//when max value from server got set to range
-				setValue([0, maxCardsCountFromState])
+				setValue([minCardsCountFromState, maxCardsCountFromState])
 		}, [maxCardsCountFromState])
 
 		useEffect(() => {

@@ -21,7 +21,7 @@ export const AppRoutes = () => {
 								<Route path={PATH.setNewPass} element={<NewPass/>}/>
 								<Route path={PATH.profile} element={<Profile/>}/>
 								<Route index element={<PacksPage/>}/>
-								<Route path={PATH.card} element={<CardsPage/>}/>
+								<Route path={PATH.cards} element={<CardsPage/>}/>
 						</Route>
 				</Routes>
 		)

@@ -1,4 +1,4 @@
-@import "src/app/mixins";
+@import "../../../common/styles/mixins";
 
 .profileInfoWrapper {
 	@include authFormsWrapper;

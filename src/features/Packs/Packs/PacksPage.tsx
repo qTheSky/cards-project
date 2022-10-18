@@ -22,6 +22,9 @@ export const PacksPage = () => {
 
 
 		useEffect(() => {
+				if (!isLoggedIn) {
+						return
+				}
 				dispatch(fetchPacks())
 		}, [currentPage, rowsPerPage, userIdFilter, packName, minCardsCount, maxCardsCount])
 

@@ -83,6 +83,7 @@ export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IP
 																page={currentPage - 1}
 																onPageChange={onPageChange}
 																onRowsPerPageChange={onRowsPerPageChange}
+																labelRowsPerPage='Packs per page'
 														/>
 												</TableRow>
 										}
