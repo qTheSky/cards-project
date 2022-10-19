@@ -9,5 +9,5 @@ export enum PATH {
 		pack = '/pack/',
 		cards = '/pack/:packId',
 		learn = '/pack/learn/',
-		learnPage = '/pack/learn/:id',
+		learnPage = '/pack/learn/:packId',
 }

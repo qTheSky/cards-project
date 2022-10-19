@@ -63,9 +63,11 @@ export const PacksTable = () => {
 														<TableCell>{dayjs(pack.updated).format('DD.MM.YYYY')}</TableCell>
 														<TableCell>{pack.user_name}</TableCell>
 														<TableCell sx={{display: 'flex'}}>
-																<IconButton disabled={pack.cardsCount === 0}>
-																		<SchoolIcon/>
-																</IconButton>
+																<Link to={PATH.learn + pack._id}>
+																		<IconButton disabled={pack.cardsCount === 0}>
+																				<SchoolIcon/>
+																		</IconButton>
+																</Link>
 																<EditPackModal packName={pack.name}
 																               isPrivatePack={pack.private}
 																               id={pack._id}

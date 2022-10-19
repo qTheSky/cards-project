@@ -1,6 +1,14 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {appActions} from 'common/CommonActions/App';
-import {cardsAPI, CardsSearchParams, CardType, CreateCardType, EditCardType, GetCardsResponse} from 'api/cardsApi';
+import {
+		cardsAPI,
+		CardsSearchParams,
+		CardType,
+		CreateCardType,
+		EditCardType,
+		GetCardsResponse,
+		GradeCardParamsType
+} from 'api/cardsApi';
 import {AppRootStateType} from 'app/store';
 import {handleErrors} from 'utils/error-utils';
 
@@ -47,6 +55,17 @@ export const editCard = createAsyncThunk('cards/editCard',
 						return handleErrors(e, thunkAPI)
 				}
 		})
+export const gradeCard = createAsyncThunk('cards/gradeCard',
+		async (params: GradeCardParamsType, thunkAPI) => {
+				thunkAPI.dispatch(appActions.setIsLoading(true))
+				try {
+						const {data} = await cardsAPI.gradeCard(params)
+						thunkAPI.dispatch(appActions.setIsLoading(false))
+						return data.updatedGrade
+				} catch (e) {
+						return handleErrors(e, thunkAPI)
+				}
+		})
 
 export const slice = createSlice({
 		name: 'cards',
@@ -69,6 +88,11 @@ export const slice = createSlice({
 				builder
 						.addCase(fetchCards.fulfilled, (state, action) => {
 								state.cardsState = action.payload
+						})
+						.addCase(gradeCard.fulfilled, (state, action) => {
+								const index = state.cardsState.cards.findIndex(card => card._id === action.payload.card_id)
+								state.cardsState.cards[index].grade = action.payload.grade
+								state.cardsState.cards[index].shots = action.payload.shots
 						})
 		}
 })

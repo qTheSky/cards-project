@@ -9,6 +9,7 @@ import {NewPass} from 'features/Auth/NewPass/NewPass';
 import {Profile} from 'features/Profile/Profile/Profile';
 import {PacksPage} from 'features/Packs/PacksPage';
 import {CardsPage} from 'features/Cards/CardsPage';
+import {LearnPage} from 'features/Learn/LearnPage';
 
 export const AppRoutes = () => {
 		return (
@@ -22,6 +23,7 @@ export const AppRoutes = () => {
 								<Route path={PATH.profile} element={<Profile/>}/>
 								<Route index element={<PacksPage/>}/>
 								<Route path={PATH.cards} element={<CardsPage/>}/>
+								<Route path={PATH.learnPage} element={<LearnPage/>}/>
 						</Route>
 				</Routes>
 		)

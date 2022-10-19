@@ -12,9 +12,8 @@ import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPa
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
-		const email = useAppSelector(state => state.profile.profile.email)
-		const name = useAppSelector(state => state.profile.profile.name)
-		const ava = useAppSelector(state => state.profile.profile.avatar)
+		const {name, email, avatar} = useAppSelector(state => state.profile.profile)
+
 		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
 
 		const onLogoutClick = () => {
@@ -32,7 +31,7 @@ export const Profile = () => {
 								<div>
 										<div className={s.profileInfoWrapper}>
 												<h1>Personal Information</h1>
-												<img className={s.profileAvatar} src={ava || noAva} alt="avatar"/>
+												<img className={s.profileAvatar} src={avatar || noAva} alt="avatar"/>
 												<EditableText callBack={changeNameHandle} value={name}/>
 												<h2>{email}</h2>
 												<Button sx={{borderRadius: '20px'}} variant="outlined" color="info"
