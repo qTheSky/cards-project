@@ -32,9 +32,9 @@ export const LearnPage = () => {
 		const grades = [1, 2, 3, 4, 5]
 
 
-		const onClickNextQuestion = async () => {
+		const onClickNextQuestion = () => {
+				dispatch(gradeCard({grade: chosenGrade, card_id: card._id}))
 				setIsAnswerShowed(false)
-				await dispatch(gradeCard({grade: chosenGrade, card_id: card._id}))
 		}
 		const gradeChangeHandle = (event: React.ChangeEvent<HTMLInputElement>) => {
 				setChosenGrade(+event.currentTarget.value)
@@ -86,7 +86,7 @@ export const LearnPage = () => {
 														{chosenGrade !== 0 &&
 																<Button variant="contained" onClick={onClickNextQuestion} fullWidth>Next</Button>}
 												</div>
-												: <Button disabled={card.question === 'loading...'}
+												: <Button disabled={!card.question}
 												          fullWidth variant="contained"
 												          onClick={() => setIsAnswerShowed(true)}>
 														Show answer

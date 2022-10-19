@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Slider} from '@mui/material';
+import {Paper, Slider} from '@mui/material';
 import {useDebounce} from 'common/hooks/useDebounce';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {setPackSearchParams} from 'features/Packs/packs-reducer';
@@ -23,7 +23,7 @@ export const FiltrationPackRange = () => {
 
 		useEffect(() => {
 				//when click clear filters reset range
-				if (min === 0 && max === maxCardsCountFromState) {
+				if (min === minCardsCountFromState && max === maxCardsCountFromState) {
 						setValue([min, max])
 				}
 		}, [min, max])
@@ -44,15 +44,24 @@ export const FiltrationPackRange = () => {
 
 
 		return (
-				<div>
-						<h3>Number of cards</h3>
-						<Slider value={value}
-						        onChange={handleRangeChange}
-						        valueLabelDisplay="auto"
-						        min={minCardsCountFromState}
-						        max={maxCardsCountFromState}
-						        disableSwap
-						/>
+				<div style={{width: '220px'}}>
+						<h3 style={{fontWeight: '500', fontSize: '14px'}}>Number of cards</h3>
+						<div style={{display: 'flex', justifyContent: 'space-between', gap: '15px'}}>
+								<Paper style={{minWidth: '36px', height: '36px', textAlign: 'center', lineHeight: '36px'}}>
+										{minCardsCountFromState}
+								</Paper>
+								<Slider value={value}
+								        onChange={handleRangeChange}
+								        valueLabelDisplay="auto"
+								        min={minCardsCountFromState}
+								        max={maxCardsCountFromState}
+								        disableSwap
+								        disabled={maxCardsCountFromState === 0}
+								/>
+								<Paper style={{minWidth: '36px', height: '36px', textAlign: 'center', lineHeight: '36px'}}>
+										{maxCardsCountFromState}
+								</Paper>
+						</div>
 				</div>
 		);
 };

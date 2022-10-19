@@ -46,9 +46,10 @@ export const PackFiltration = () => {
 						<TextField value={packNameSearch}
 						           onChange={onInputChange}
 						           size="small"
-						           label="Pack name"/>
+						           label="Pack name"
+						/>
 						<div>
-								<div>Show packs cards</div>
+								<div style={{fontSize: '14px', fontWeight: '500'}}>Show packs cards</div>
 								<Button variant={authUserId === user_id ? 'contained' : 'outlined'}
 								        onClick={onClickMyPacks}>My</Button>
 								<Button variant={authUserId === user_id ? 'outlined' : 'contained'}

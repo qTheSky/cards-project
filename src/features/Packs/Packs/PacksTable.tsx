@@ -18,15 +18,15 @@ import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
 import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
-
+import {TableHeaderItem} from 'features/Packs/Packs/TableHeaderItem';
 
 export const PacksTable = () => {
 		const dispatch = useAppDispatch()
+		const isAppMakingRequest = useAppSelector(state => state.app.isLoading)
 		const packs = useAppSelector(state => state.packs.packsState.cardPacks)
 		const packTotalCount = useAppSelector(state => state.packs.packsState.cardPacksTotalCount)
-		const currentPage = useAppSelector(state => state.packs.searchParams.page)
-		const rowsPerPage = useAppSelector(state => state.packs.searchParams.pageCount)
 		const authUserId = useAppSelector(state => state.profile.profile._id)
+		const {pageCount, page} = useAppSelector(state => state.packs.searchParams)
 
 		const onPageChange = (event: unknown, newPage: number) => {
 				dispatch(setPackSearchParams({page: newPage + 1}))
@@ -36,16 +36,17 @@ export const PacksTable = () => {
 				dispatch(setPackSearchParams({pageCount: +event.target.value, page: 1}))
 		}
 
+
 		return (
 				<TableContainer component={Paper} sx={{margin: '25px 0'}}>
 						<Table sx={{minWidth: 650}} aria-label="simple table">
 
 								<TableHead sx={{backgroundColor: '#EFEFEF'}}>
 										<TableRow>
-												<TableCell sx={{width: '45%'}}>Name</TableCell>
-												<TableCell sx={{width: '10%'}}>Cards</TableCell>
-												<TableCell sx={{width: '10%'}}>Last updated</TableCell>
-												<TableCell sx={{width: '20%'}}>Created by</TableCell>
+												<TableHeaderItem width="45%" name="Name" sortName="name"/>
+												<TableHeaderItem width="10%" name="Cards" sortName="cardsCount"/>
+												<TableHeaderItem width="15%" name="Last updated" sortName="updated"/>
+												<TableHeaderItem width="15%" name="Created by" sortName="created"/>
 												<TableCell align="center" sx={{width: '15%'}}>Actions</TableCell>
 										</TableRow>
 								</TableHead>
@@ -78,12 +79,14 @@ export const PacksTable = () => {
 														</TableCell>
 												</TableRow>
 										))}
+
+
 										{packTotalCount > 0 &&
 												<TableRow>
 														<TablePagination rowsPerPageOptions={[5, 10, 25, 50, 100]}
 														                 count={packTotalCount}
-														                 rowsPerPage={rowsPerPage}
-														                 page={currentPage - 1}
+														                 rowsPerPage={pageCount}
+														                 page={page - 1}
 														                 onPageChange={onPageChange}
 														                 onRowsPerPageChange={onRowsPerPageChange}
 														                 labelRowsPerPage="Packs per page"
@@ -91,8 +94,10 @@ export const PacksTable = () => {
 												</TableRow>
 										}
 								</TableBody>
-
 						</Table>
+						{packTotalCount === 0 && !isAppMakingRequest &&
+								<div style={{textAlign: 'center', color: 'gray', fontSize: '30px'}}>No results, try to use other
+										params</div>}
 				</TableContainer>
 		);
 };
