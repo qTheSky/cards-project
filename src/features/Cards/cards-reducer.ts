@@ -81,7 +81,7 @@ export const slice = createSlice({
 		},
 		reducers: {
 				setCardsSearchParams(state, action: PayloadAction<SetCardsSearchParams>) {
-						state.searchParams = {...slice.getInitialState().searchParams, ...action.payload}
+						state.searchParams = {...state.searchParams, ...action.payload}
 				},
 		},
 		extraReducers: builder => {

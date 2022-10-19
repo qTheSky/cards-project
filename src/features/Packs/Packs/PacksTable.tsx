@@ -33,7 +33,7 @@ export const PacksTable = () => {
 		}
 
 		const onRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-				dispatch(setPackSearchParams({pageCount: +event.target.value}))
+				dispatch(setPackSearchParams({pageCount: +event.target.value, page: 1}))
 		}
 
 		return (
@@ -91,6 +91,7 @@ export const PacksTable = () => {
 												</TableRow>
 										}
 								</TableBody>
+
 						</Table>
 				</TableContainer>
 		);

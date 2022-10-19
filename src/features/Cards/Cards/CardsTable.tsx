@@ -11,75 +11,77 @@ import {
 		TableRow
 } from '@mui/material';
 import dayjs from 'dayjs';
-import {useAppSelector} from 'app/store';
+import {useAppDispatch, useAppSelector} from 'app/store';
 import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
 import {EditCardModal} from 'features/Cards/CardsModals/EditCardModal';
 import {useParams} from 'react-router-dom';
+import {setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {setPackSearchParams} from 'features/Packs/packs-reducer';
 
-interface IProps {
-}
-
-export const CardsTable = ({}: IProps) => {
-		const {packId} = useParams() as {packId:string}
+export const CardsTable = () => {
+		const {packId} = useParams() as { packId: string }
+		const dispatch = useAppDispatch()
 		const cardsTotalCount = useAppSelector(state => state.cards.cardsState.cardsTotalCount)
 		const rowsPerPage = useAppSelector(state => state.cards.searchParams.pageCount)
 		const currentPage = useAppSelector(state => state.cards.searchParams.page)
-		const authUserId = useAppSelector(state=>state.profile.profile._id)
-		const cards = useAppSelector(state=>state.cards.cardsState.cards)
-		const packOwnerId = useAppSelector(state=>state.cards.cardsState.packUserId)
+		const authUserId = useAppSelector(state => state.profile.profile._id)
+		const cards = useAppSelector(state => state.cards.cardsState.cards)
+		const packOwnerId = useAppSelector(state => state.cards.cardsState.packUserId)
 		const isOwner = authUserId === packOwnerId
 
-
-
+		const onPageChange = (event: unknown, newPage: number) => {
+				dispatch(setCardsSearchParams({page: newPage + 1}))
+		}
+		const onRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+				dispatch(setCardsSearchParams({pageCount: +event.target.value, page: 1}))
+		}
 		return (
-						<TableContainer component={Paper} sx={{margin: '25px 0'}}>
-								<Table sx={{minWidth: 650}} aria-label="simple table">
-										<TableHead sx={{backgroundColor: '#EFEFEF'}}>
-												<TableRow>
-														<TableCell sx={{width: '30%'}}>Question</TableCell>
-														<TableCell sx={{width: '30%'}}>Answer</TableCell>
-														<TableCell>Last updated</TableCell>
-														<TableCell>Grade</TableCell>
-														{isOwner && <TableCell>Actions</TableCell>}
+				<TableContainer component={Paper} sx={{margin: '25px 0'}}>
+						<Table sx={{minWidth: 650}} aria-label="simple table">
+								<TableHead sx={{backgroundColor: '#EFEFEF'}}>
+										<TableRow>
+												<TableCell sx={{width: '30%'}}>Question</TableCell>
+												<TableCell sx={{width: '30%'}}>Answer</TableCell>
+												<TableCell>Last updated</TableCell>
+												<TableCell>Grade</TableCell>
+												{isOwner && <TableCell>Actions</TableCell>}
+										</TableRow>
+								</TableHead>
+
+								<TableBody>
+										{cards.map(card => (
+												<TableRow key={card._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+														<TableCell>{card.question}</TableCell>
+														<TableCell>{card.answer}</TableCell>
+														<TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
+														<TableCell><Rating value={card.grade} readOnly/></TableCell>
+														{isOwner &&
+																<TableCell sx={{display: 'flex'}}>
+																		<EditCardModal cardId={card._id}
+																		               answer={card.answer}
+																		               question={card.question}
+																		               packId={card.cardsPack_id}
+																		/>
+																		<DeleteCardModal packId={packId} cardId={card._id}
+																		                 cardName={card.answer}/>
+																</TableCell>}
+
 												</TableRow>
-										</TableHead>
-
-										<TableBody>
-												{cards.map(card => (
-														<TableRow key={card._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-																<TableCell>{card.question}</TableCell>
-																<TableCell>{card.answer}</TableCell>
-																<TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
-																<TableCell><Rating value={card.grade} readOnly/></TableCell>
-																{isOwner &&
-																		<TableCell sx={{display: 'flex'}}>
-																				<EditCardModal cardId={card._id}
-																				               answer={card.answer}
-																				               question={card.question}
-																				               packId={card.cardsPack_id}
-																				/>
-																				<DeleteCardModal packId={packId} cardId={card._id}
-																				                 cardName={card.answer}/>
-																		</TableCell>}
-
-														</TableRow>
-												))}
-												{cards.length > 0 &&
-														<TableRow>
-																<TablePagination labelRowsPerPage="Cards per page"
-																                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
-																                 count={cardsTotalCount}
-																                 rowsPerPage={rowsPerPage}
-																                 page={currentPage - 1}
-																                 onPageChange={() => {
-																                 }}
-																                 onRowsPerPageChange={() => {
-																                 }}
-																/>
-														</TableRow>
-												}
-										</TableBody>
-								</Table>
-						</TableContainer>
+										))}
+										{cards.length > 0 &&
+												<TableRow>
+														<TablePagination labelRowsPerPage="Cards per page"
+														                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
+														                 count={cardsTotalCount}
+														                 rowsPerPage={rowsPerPage}
+														                 page={currentPage - 1}
+														                 onPageChange={onPageChange}
+														                 onRowsPerPageChange={onRowsPerPageChange}
+														/>
+												</TableRow>
+										}
+								</TableBody>
+						</Table>
+				</TableContainer>
 		);
 };
