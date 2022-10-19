@@ -10,12 +10,13 @@ import {Profile} from 'features/Profile/Profile/Profile';
 import {PacksPage} from 'features/Packs/PacksPage';
 import {CardsPage} from 'features/Cards/CardsPage';
 import {LearnPage} from 'features/Cards/Learn/LearnPage';
+import { Page404 } from 'common/components/404Page/Page404';
 
 export const AppRoutes = () => {
 		return (
 				<Routes>
 						<Route path={PATH.main} element={<MainLayout/>}>
-								<Route path={PATH.notFound} element={<Navigate to={'/404'}/>}/>
+								<Route path={PATH.notFound} element={<Page404/>}/>
 								<Route path={PATH.login} element={<Login/>}/>
 								<Route path={PATH.register} element={<Register/>}/>
 								<Route path={PATH.forgotPass} element={<ForgotPass/>}/>

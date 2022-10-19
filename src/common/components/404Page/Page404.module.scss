@@ -1,0 +1,25 @@
+.block {
+	text-align: center;
+	margin: 100px auto auto auto;
+
+	.textAndButton {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+
+		.ooops {
+			font-weight: 600;
+			font-size: 50px;
+		}
+
+		.pageNotFoundText {
+			font-weight: 500;
+			font-size: 16px;
+		}
+	}
+
+	.image {
+		margin-top: 20px;
+	}
+
+}
