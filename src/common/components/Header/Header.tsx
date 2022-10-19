@@ -38,8 +38,11 @@ export const Header = () => {
 												}
 										</div>
 								</Container>
-								{isRequestSending && pathname !== PATH.main &&
-										<div style={{position: 'absolute', bottom: '0', width: '100%'}}><LinearProgress/></div>}
+								{isRequestSending &&
+										<div style={{position: 'absolute', bottom: '0', width: '100%'}}>
+												<LinearProgress/>
+										</div>
+								}
 						</header>
 				</>
 		);

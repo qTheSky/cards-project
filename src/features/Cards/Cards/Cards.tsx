@@ -1,13 +1,18 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
-import {CardsTable} from 'features/Cards/CardsTable';
+import {CardsTable} from 'features/Cards/Cards/CardsTable';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {AddCardModal} from 'features/Modals/CardsModals/AddCardModal';
+import {AddCardModal} from 'features/Cards/CardsModals/AddCardModal';
 import {useParams} from 'react-router-dom';
 import {Button, TextField} from '@mui/material';
 import {useDebounce} from 'common/hooks/useDebounce';
 import {setCardsSearchParams} from 'features/Cards/cards-reducer';
 
-export const Cards = () => {
+
+interface IProps {
+		switchIsSearching: (isSearching: boolean) => void
+}
+
+export const Cards = ({switchIsSearching}: IProps) => {
 		const dispatch = useAppDispatch()
 		const {packId} = useParams() as { packId: string }
 		const packName = useAppSelector(state => state.cards.cardsState.packName)
@@ -25,10 +30,12 @@ export const Cards = () => {
 		useEffect(() => {
 				return () => {
 						dispatch(setCardsSearchParams({cardQuestion: ''}))
+						switchIsSearching(false)
 				}
 		}, [])
 
 		useEffect(() => {
+				switchIsSearching(true)
 				dispatch(setCardsSearchParams({cardQuestion: searchByQuestion}))
 		}, [debouncedValue])
 		return (

@@ -7,7 +7,7 @@ import {PATH} from 'app/RouteVariables';
 import {ForgotPass} from 'features/Auth/ForgotPass/ForgotPass';
 import {NewPass} from 'features/Auth/NewPass/NewPass';
 import {Profile} from 'features/Profile/Profile/Profile';
-import {PacksPage} from 'features/Packs/Packs/PacksPage';
+import {PacksPage} from 'features/Packs/PacksPage';
 import {CardsPage} from 'features/Cards/CardsPage';
 
 export const AppRoutes = () => {

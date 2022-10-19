@@ -12,8 +12,8 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import {useAppSelector} from 'app/store';
-import {DeleteCardModal} from 'features/Modals/CardsModals/DeleteCardModal';
-import {EditCardModal} from 'features/Modals/CardsModals/EditCardModal';
+import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
+import {EditCardModal} from 'features/Cards/CardsModals/EditCardModal';
 import {useParams} from 'react-router-dom';
 
 interface IProps {

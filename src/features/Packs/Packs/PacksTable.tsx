@@ -13,26 +13,25 @@ import {
 import dayjs from 'dayjs';
 import {setPackSearchParams} from '../packs-reducer';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {PackType} from 'api/packsApi';
 import SchoolIcon from '@mui/icons-material/School';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
-import {DeletePackModal} from 'features/Modals/PacksModals/DeletePackModal';
-import {EditPackModal} from 'features/Modals/PacksModals/EditPackModal';
+import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
+import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
 
-interface IProps {
-		packs: PackType[]
-		packTotalCount: number
-		rowsPerPage: number
-		currentPage: number
-}
 
-export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IProps) => {
+export const PacksTable = () => {
 		const dispatch = useAppDispatch()
+		const packs = useAppSelector(state => state.packs.packsState.cardPacks)
+		const packTotalCount = useAppSelector(state => state.packs.packsState.cardPacksTotalCount)
+		const currentPage = useAppSelector(state => state.packs.searchParams.page)
+		const rowsPerPage = useAppSelector(state => state.packs.searchParams.pageCount)
 		const authUserId = useAppSelector(state => state.profile.profile._id)
+
 		const onPageChange = (event: unknown, newPage: number) => {
 				dispatch(setPackSearchParams({page: newPage + 1}))
 		}
+
 		const onRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 				dispatch(setPackSearchParams({pageCount: +event.target.value}))
 		}
@@ -63,27 +62,29 @@ export const PacksTable = ({packs, packTotalCount, rowsPerPage, currentPage}: IP
 														<TableCell>{pack.cardsCount}</TableCell>
 														<TableCell>{dayjs(pack.updated).format('DD.MM.YYYY')}</TableCell>
 														<TableCell>{pack.user_name}</TableCell>
-														<TableCell sx={{display: 'flex', justifyContent: 'flex-start'}}>
+														<TableCell sx={{display: 'flex'}}>
 																<IconButton disabled={pack.cardsCount === 0}>
 																		<SchoolIcon/>
 																</IconButton>
-																<EditPackModal packName={pack.name} isPrivatePack={pack.private} id={pack._id}
+																<EditPackModal packName={pack.name}
+																               isPrivatePack={pack.private}
+																               id={pack._id}
 																               disabled={pack.user_id !== authUserId}/>
-																<DeletePackModal packId={pack._id} packName={pack.name}
+																<DeletePackModal packId={pack._id}
+																                 packName={pack.name}
 																                 disabled={pack.user_id !== authUserId}/>
 														</TableCell>
 												</TableRow>
 										))}
-										{packs.length > 0 &&
+										{packTotalCount > 0 &&
 												<TableRow>
-														<TablePagination
-																rowsPerPageOptions={[5, 10, 25, 50, 100]}
-																count={packTotalCount}
-																rowsPerPage={rowsPerPage}
-																page={currentPage - 1}
-																onPageChange={onPageChange}
-																onRowsPerPageChange={onRowsPerPageChange}
-																labelRowsPerPage='Packs per page'
+														<TablePagination rowsPerPageOptions={[5, 10, 25, 50, 100]}
+														                 count={packTotalCount}
+														                 rowsPerPage={rowsPerPage}
+														                 page={currentPage - 1}
+														                 onPageChange={onPageChange}
+														                 onRowsPerPageChange={onRowsPerPageChange}
+														                 labelRowsPerPage="Packs per page"
 														/>
 												</TableRow>
 										}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AddCardModal} from 'features/Modals/CardsModals/AddCardModal';
+import {AddCardModal} from 'features/Cards/CardsModals/AddCardModal';
 import {useAppSelector} from 'app/store';
 import {useParams} from 'react-router-dom';
 

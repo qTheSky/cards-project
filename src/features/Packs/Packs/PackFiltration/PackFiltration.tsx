@@ -9,8 +9,7 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 export const PackFiltration = () => {
 		const dispatch = useAppDispatch()
 		const authUserId = useAppSelector(state => state.profile.profile._id)
-		const userIdFilter = useAppSelector(state => state.packs.searchParams.user_id)
-		const packName = useAppSelector(state => state.packs.searchParams.packName)
+		const {user_id, packName} = useAppSelector(state => state.packs.searchParams)
 
 
 		const [packNameSearch, setPackNameSearch] = useState<string>(packName)
@@ -44,19 +43,20 @@ export const PackFiltration = () => {
 
 		return (
 				<div style={{display: 'flex', gap: '5px', justifyContent: 'space-between', alignItems: 'center'}}>
-						<div>
-								<TextField value={packNameSearch} onChange={onInputChange} size="small"
-								           label="Pack name"/>
-						</div>
+						<TextField value={packNameSearch}
+						           onChange={onInputChange}
+						           size="small"
+						           label="Pack name"/>
 						<div>
 								<div>Show packs cards</div>
-								<Button variant={authUserId === userIdFilter ? 'contained' : 'outlined'}
+								<Button variant={authUserId === user_id ? 'contained' : 'outlined'}
 								        onClick={onClickMyPacks}>My</Button>
-								<Button variant={authUserId === userIdFilter ? 'outlined' : 'contained'}
+								<Button variant={authUserId === user_id ? 'outlined' : 'contained'}
 								        onClick={onClickAllPacks}>All</Button>
 						</div>
 						<FiltrationPackRange/>
-						<IconButton sx={{backgroundColor: 'white', border: '2px solid gray'}} onClick={onClearFiltersClick}>
+						<IconButton sx={{backgroundColor: 'white', border: '2px solid gray'}}
+						            onClick={onClearFiltersClick}>
 								<FilterAltOffIcon/>
 						</IconButton>
 				</div>
