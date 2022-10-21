@@ -29,6 +29,7 @@ export type GetCardsResponse = {
 		packUserId: string
 		page: number
 		pageCount: number
+		packDeckCover:string
 }
 export type CardsSearchParams = {
 		cardAnswer: string

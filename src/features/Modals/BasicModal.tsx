@@ -28,29 +28,27 @@ const style = {
 export const BasicModal = ({title, children, open, ...props}: PropsType) => {
 
 		return (
-				<div>
-						<Modal open={open}
-						       onClose={props.handleClose}>
-								<Box sx={style}>
-										<div style={{
-												display: 'flex',
-												alignItems: 'center',
-												justifyContent: 'space-between',
-												borderBottom: '1px solid #D9D9D9',
-												padding: '20px'
-										}}>
-												<h2>
-														{title}
-												</h2>
-												<IconButton onClick={props.handleClose} style={{padding: 'none'}}>
-														<CloseIcon/>
-												</IconButton>
-										</div>
-										<div style={{margin: '0 8px 38px 8px', padding: '6px'}}>
-												{children}
-										</div>
-								</Box>
-						</Modal>
-				</div>
+				<Modal open={open}
+				       onClose={props.handleClose}>
+						<Box sx={style}>
+								<div style={{
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+										borderBottom: '1px solid #D9D9D9',
+										padding: '20px'
+								}}>
+										<h2>
+												{title}
+										</h2>
+										<IconButton onClick={props.handleClose} style={{padding: 'none'}}>
+												<CloseIcon/>
+										</IconButton>
+								</div>
+								<div style={{margin: '0 8px 38px 8px', padding: '6px'}}>
+										{children}
+								</div>
+						</Box>
+				</Modal>
 		)
 }

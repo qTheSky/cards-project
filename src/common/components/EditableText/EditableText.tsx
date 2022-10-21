@@ -31,7 +31,7 @@ export const EditableText = (props: EditableTextPropsType) => {
 								             value={newText}
 								             autoFocus
 								             onChange={(e) => setNewText(e.currentTarget.value)}/>
-								: <span onDoubleClick={() => setEdit(true)} className={s.profileName}>
+								: <span onDoubleClick={() => setEdit(true)} className={s.span}>
 								{props.value}
 										<img src={editableText} alt="edit"/>
 						</span>}

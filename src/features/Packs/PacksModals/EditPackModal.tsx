@@ -4,16 +4,17 @@ import {Button, Checkbox, FormControlLabel, IconButton, TextField} from '@mui/ma
 import {useAppDispatch} from 'app/store';
 import {editPack, fetchPacks} from 'features/Packs/packs-reducer';
 import EditIcon from '@mui/icons-material/Edit';
-
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 
 interface IProps {
 		id: string
-		disabled: boolean
+		disabled?: boolean
 		packName: string
 		isPrivatePack: boolean
+		view: 'packOwnerMenu' | 'packs'
 }
 
-export const EditPackModal = ({id, disabled, isPrivatePack, packName}: IProps) => {
+export const EditPackModal = ({id, disabled, isPrivatePack, packName, view}: IProps) => {
 		const dispatch = useAppDispatch()
 		const [name, setName] = useState(packName)
 		const [checked, setChecked] = useState(isPrivatePack)
@@ -22,15 +23,26 @@ export const EditPackModal = ({id, disabled, isPrivatePack, packName}: IProps) =
 
 		const handleSave = async () => {
 				await dispatch(editPack({name, private: checked, _id: id}))
-				await dispatch(fetchPacks())
+				if (view === 'packs') {
+						await dispatch(fetchPacks())
+				}
 				setOpen(false)
 		}
 
 		return (
 				<div>
-						<IconButton onClick={() => setOpen(true)} disabled={disabled}>
-								<EditIcon/>
-						</IconButton>
+						{view === 'packs' &&
+								<IconButton onClick={() => setOpen(true)} disabled={disabled}>
+										<EditIcon/>
+								</IconButton>
+						}
+						{view === 'packOwnerMenu' &&
+								<div onClick={() => setOpen(true)}
+								     style={{display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer'}}>
+										<EditOutlinedIcon/>
+										Edit
+								</div>
+						}
 						<BasicModal open={open}
 						            handleOpen={() => setOpen(true)}
 						            handleClose={() => setOpen(false)}

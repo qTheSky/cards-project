@@ -11,6 +11,7 @@ import {
 } from 'api/cardsApi';
 import {AppRootStateType} from 'app/store';
 import {handleErrors} from 'utils/error-utils';
+import {editPack} from 'features/Packs/packs-reducer';
 
 
 export const fetchCards = createAsyncThunk('cards/fetchCards',
@@ -83,6 +84,9 @@ export const slice = createSlice({
 				setCardsSearchParams(state, action: PayloadAction<SetCardsSearchParams>) {
 						state.searchParams = {...state.searchParams, ...action.payload}
 				},
+				resetCardsState(state) {
+						state.cardsState = {...slice.getInitialState().cardsState}
+				},
 		},
 		extraReducers: builder => {
 				builder
@@ -94,9 +98,12 @@ export const slice = createSlice({
 								state.cardsState.cards[index].grade = action.payload.grade
 								state.cardsState.cards[index].shots = action.payload.shots
 						})
+						.addCase(editPack.fulfilled, (state, action: PayloadAction<string>) => {
+								state.cardsState.packName = action.payload
+						})
 		}
 })
-export const {setCardsSearchParams} = slice.actions
+export const {setCardsSearchParams, resetCardsState} = slice.actions
 export const cardsReducer = slice.reducer
 export type SetCardsSearchParams = {
 		cardAnswer?: string

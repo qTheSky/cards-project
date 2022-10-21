@@ -16,7 +16,6 @@ import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
 import {EditCardModal} from 'features/Cards/CardsModals/EditCardModal';
 import {useParams} from 'react-router-dom';
 import {setCardsSearchParams} from 'features/Cards/cards-reducer';
-import {setPackSearchParams} from 'features/Packs/packs-reducer';
 
 export const CardsTable = () => {
 		const {packId} = useParams() as { packId: string }
@@ -37,11 +36,11 @@ export const CardsTable = () => {
 		}
 		return (
 				<TableContainer component={Paper} sx={{margin: '25px 0'}}>
-						<Table sx={{minWidth: 650}} aria-label="simple table">
+						<Table sx={{minWidth: 650}}>
 								<TableHead sx={{backgroundColor: '#EFEFEF'}}>
 										<TableRow>
-												<TableCell sx={{width: '30%'}}>Question</TableCell>
-												<TableCell sx={{width: '30%'}}>Answer</TableCell>
+												<TableCell sx={{width: '33%'}}>Question</TableCell>
+												<TableCell sx={{width: '33%'}}>Answer</TableCell>
 												<TableCell>Last updated</TableCell>
 												<TableCell>Grade</TableCell>
 												{isOwner && <TableCell>Actions</TableCell>}
@@ -50,9 +49,25 @@ export const CardsTable = () => {
 
 								<TableBody>
 										{cards.map(card => (
-												<TableRow key={card._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-														<TableCell>{card.question}</TableCell>
-														<TableCell>{card.answer}</TableCell>
+												<TableRow key={card._id} sx={{verticalAlign: 'top'}}>
+														<TableCell>
+																<div>
+																		{card.question !== 'no question' && <span>{card.question}</span>}
+																		{card.questionImg &&
+																				<img style={{width: '150px', height: '36px'}}
+																				     src={card.questionImg}
+																				     alt="questionImg"/>}
+																</div>
+														</TableCell>
+														<TableCell>
+																<div>
+																		{card.answer !== 'no answer' && <span>{card.answer}</span>}
+																		{card.answerImg &&
+																				<img style={{width: '150px', height: '36px'}}
+																				     src={card.answerImg}
+																				     alt="answerImg"/>}
+																</div>
+														</TableCell>
 														<TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
 														<TableCell><Rating value={card.grade} readOnly/></TableCell>
 														{isOwner &&
@@ -64,8 +79,8 @@ export const CardsTable = () => {
 																		/>
 																		<DeleteCardModal packId={packId} cardId={card._id}
 																		                 cardName={card.answer}/>
-																</TableCell>}
-
+																</TableCell>
+														}
 												</TableRow>
 										))}
 										{cards.length > 0 &&

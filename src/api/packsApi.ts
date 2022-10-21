@@ -44,6 +44,7 @@ export type PackType = {
 		rating: number
 		shots: number
 		private: boolean
+		deckCover:string
 }
 export type CreatePackDataType = {
 		name: string

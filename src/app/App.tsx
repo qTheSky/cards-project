@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {AppRoutes} from 'app/AppRoutes';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {initializeApp} from 'app/app-reducer';
-import {CircularProgress} from '@mui/material';
+import {Spinner} from 'common/components/Spinner/Spinner';
 
 export const App = () => {
 		const dispatch = useAppDispatch()
@@ -12,11 +12,9 @@ export const App = () => {
 		}, [])
 
 
-		if (!isAppInitialized) return (
-						<div style={{position: 'fixed', top: '40%', textAlign: 'center', width: '100%'}}>
-								<CircularProgress/>
-						</div>
-				)
+		if (!isAppInitialized) return <Spinner/>
+
+
 		return <AppRoutes/>
 }
 

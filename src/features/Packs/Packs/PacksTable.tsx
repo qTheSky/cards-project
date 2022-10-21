@@ -35,8 +35,6 @@ export const PacksTable = () => {
 		const onRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 				dispatch(setPackSearchParams({pageCount: +event.target.value, page: 1}))
 		}
-
-
 		return (
 				<TableContainer component={Paper} sx={{margin: '25px 0'}}>
 						<Table sx={{minWidth: 650}} aria-label="simple table">
@@ -53,11 +51,20 @@ export const PacksTable = () => {
 
 								<TableBody>
 										{packs.map(pack => (
-												<TableRow key={pack._id} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
+												<TableRow key={pack._id}>
 														<TableCell>
-																<Link style={{cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}
-																      to={PATH.pack + pack._id}>
-																		{pack.name}
+																<Link style={{
+																		display: 'flex',
+																		alignItems: 'center',
+																		gap: '15px',
+																		width: 'max-content',
+																		cursor: 'pointer',
+																}} to={PATH.pack + pack._id}>
+																		{pack.deckCover &&
+																				<img style={{width: '60px', height: '40px', borderRadius: '4px'}}
+																				     src={pack.deckCover} alt="deckCover"/>
+																		}
+																		<span>{pack.name}</span>
 																</Link>
 														</TableCell>
 														<TableCell>{pack.cardsCount}</TableCell>
@@ -70,12 +77,15 @@ export const PacksTable = () => {
 																		</IconButton>
 																</Link>
 																<EditPackModal packName={pack.name}
+																               view="packs"
 																               isPrivatePack={pack.private}
 																               id={pack._id}
 																               disabled={pack.user_id !== authUserId}/>
 																<DeletePackModal packId={pack._id}
 																                 packName={pack.name}
-																                 disabled={pack.user_id !== authUserId}/>
+																                 view="packs"
+																                 disabled={pack.user_id !== authUserId}
+																/>
 														</TableCell>
 												</TableRow>
 										))}

@@ -31,15 +31,18 @@ export const deletePack = createAsyncThunk('packs/deletePack',
 				thunkAPI.dispatch(appActions.setIsLoading(true))
 				try {
 						await packsAPI.deletePack(packId)
+						thunkAPI.dispatch(appActions.setIsLoading(false))
 				} catch (e) {
 						return handleErrors(e, thunkAPI)
 				}
 		})
 export const editPack = createAsyncThunk('packs/editPack',
-		async (param:EditPackType, thunkAPI) => {
+		async (param: EditPackType, thunkAPI) => {
 				thunkAPI.dispatch(appActions.setIsLoading(true))
 				try {
 						await packsAPI.editPack(param)
+						thunkAPI.dispatch(appActions.setIsLoading(false))
+						return param.name
 				} catch (e) {
 						return handleErrors(e, thunkAPI)
 				}

@@ -2,7 +2,7 @@ import {Button, Container, FormControl, FormControlLabel, Paper, Radio, RadioGro
 import React, {useEffect, useState} from 'react';
 import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPackListLink';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {fetchCards, gradeCard, setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {fetchCards, gradeCard, resetCardsState, setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {Navigate, useParams} from 'react-router-dom';
 import {CardType} from 'api/cardsApi';
 import {PATH} from 'app/RouteVariables';
@@ -26,7 +26,6 @@ export const LearnPage = () => {
 		const packName = useAppSelector(state => state.cards.cardsState.packName)
 		const cards = useAppSelector(state => state.cards.cardsState.cards)
 		const [isAnswerShowed, setIsAnswerShowed] = useState(false)
-		const [first, setFirst] = useState(true)
 		const [chosenGrade, setChosenGrade] = useState(0)
 		const [card, setCard] = useState<any>({})
 		const grades = [1, 2, 3, 4, 5]
@@ -40,14 +39,21 @@ export const LearnPage = () => {
 				setChosenGrade(+event.currentTarget.value)
 		}
 
+
 		useEffect(() => {
-				if (first) {
-						dispatch(setCardsSearchParams({pageCount: 99999}))
-						dispatch(fetchCards(packId))
-						setFirst(false)
+				return () => {
+						dispatch(setCardsSearchParams({pageCount: 10}))
 				}
+		}, [])
+
+		useEffect(() => {
+				dispatch(setCardsSearchParams({pageCount: 99999}))
+				dispatch(fetchCards(packId))
+		}, [])
+
+		useEffect(() => {
 				if (cards.length > 0) setCard(getCard(cards))
-		}, [cards, first, packId])
+		}, [cards])
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		return (
 				<div>
