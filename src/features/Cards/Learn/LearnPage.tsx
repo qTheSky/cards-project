@@ -2,7 +2,7 @@ import {Button, Container, FormControl, FormControlLabel, Paper, Radio, RadioGro
 import React, {useEffect, useState} from 'react';
 import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPackListLink';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {fetchCards, gradeCard, resetCardsState, setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {fetchCards, gradeCard, setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {Navigate, useParams} from 'react-router-dom';
 import {CardType} from 'api/cardsApi';
 import {PATH} from 'app/RouteVariables';
@@ -43,6 +43,7 @@ export const LearnPage = () => {
 		useEffect(() => {
 				return () => {
 						dispatch(setCardsSearchParams({pageCount: 10}))
+						setCard({})
 				}
 		}, [])
 
@@ -61,12 +62,20 @@ export const LearnPage = () => {
 								<BackToPackListLink/>
 								<h1 style={{textAlign: 'center', marginBottom: '20px'}}>Learn ''{packName || 'loading...'}''</h1>
 								<Paper sx={{margin: '0 auto', padding: '30px', maxWidth: '440px'}}>
-										<div style={{marginBottom: '15px'}}><b>Question: </b>{card.question || 'loading...'}?</div>
+										<div style={{marginBottom: '15px'}}>
+												<b>Question: </b>{card.question !== 'no question' && card.question}
+												{card.questionImg && <img style={{width: '373px', height: '119px'}} src={card.questionImg}
+												                          alt="question image"/>}
+										</div>
 										<p style={{marginBottom: '35px', fontSize: '14px', opacity: '0.5'}}>Количество попыток ответов на
 												вопрос: <b>{card.shots}</b></p>
 										{isAnswerShowed
 												? <div>
-														<div style={{marginBottom: '25px'}}><b>Answer: </b>{card.answer}</div>
+														<div style={{marginBottom: '25px'}}>
+																<b>Answer: </b>{card.answer !== 'no answer' && card.answer}
+																{card.answerImg && <img style={{width: '373px', height: '119px'}} src={card.answerImg}
+																                        alt="answer image"/>}
+														</div>
 														<div>
 																<FormControl>
 																		<div>Rate yourself</div>
