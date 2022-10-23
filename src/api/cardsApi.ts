@@ -61,15 +61,15 @@ export type CardType = {
 }
 export type CreateCardType = {
     cardsPack_id: string
-    question?: string
+    question: string
     answer: string
-    questionImg?: string
+    questionImg: string
 }
 export type EditCardType = {
     _id: string
     question: string
     answer: string
-    questionImg?: string
+    questionImg: string | null
 }
 export type GradeCardParamsType = {
     grade: number

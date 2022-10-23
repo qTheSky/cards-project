@@ -23,11 +23,13 @@ export const CardsPage = () => {
 				}
 				dispatch(fetchCards(packId))
 		}, [cardQuestion, packId, pageCount, page])
+
 		useEffect(() => {
 				return () => {
 						dispatch(resetCardsState())
 				}
 		}, [])
+
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		if (!packName) return <Container><BackToPackListLink/></Container>
 		return (

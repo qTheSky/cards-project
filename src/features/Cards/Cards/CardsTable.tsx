@@ -13,9 +13,9 @@ import {
 import dayjs from 'dayjs';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
-import {EditCardModal} from 'features/Cards/CardsModals/EditCardModal';
 import {useParams} from 'react-router-dom';
 import {setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {EditCardModal} from "../CardsModals/EditCardModal";
 
 export const CardsTable = () => {
     const {packId} = useParams() as { packId: string }
@@ -51,22 +51,23 @@ export const CardsTable = () => {
                     {cards.map(card => (
                         <TableRow key={card._id} sx={{verticalAlign: 'top'}}>
                             <TableCell>
-                                <div>
-                                    {card.question !== 'no question' && <span>{card.question}</span>}
+                                <div style={{display: 'flex', alignItems: 'start'}}>
                                     {card.questionImg &&
                                         <img style={{width: '150px', height: '36px'}}
                                              src={card.questionImg}
-                                             alt="questionImg"/>}
+                                             alt="questionImg"/>
+                                    }
+                                    {card.question !== 'no question' && <span>{card.question}</span>}
                                 </div>
+
                             </TableCell>
                             <TableCell>
-                                <div>
-                                    {card.answer !== 'no answer' && <span>{card.answer}</span>}
-                                    {card.answerImg &&
-                                        <img style={{width: '150px', height: '36px'}}
-                                             src={card.answerImg}
-                                             alt="answerImg"/>}
-                                </div>
+                                {card.answerImg &&
+                                    <img style={{width: '150px', height: '36px'}}
+                                         src={card.answerImg}
+                                         alt="answerImg"/>
+                                }
+                                {card.answer !== 'no answer' && <span>{card.answer}</span>}
                             </TableCell>
                             <TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
                             <TableCell><Rating value={card.grade} readOnly/></TableCell>
@@ -76,9 +77,7 @@ export const CardsTable = () => {
                                         <EditCardModal cardId={card._id}
                                                        questionImg={card.questionImg}
                                                        answer={card.answer}
-                                                       question={card.question}
-                                                       packId={card.cardsPack_id}
-                                        />
+                                                       question={card.question}/>
                                         <DeleteCardModal packId={packId} cardId={card._id}
                                                          cardName={card.answer}/>
                                     </div>
