@@ -77,6 +77,7 @@ export const PacksTable = () => {
 																		</IconButton>
 																</Link>
 																<EditPackModal packName={pack.name}
+																			   deckCover={pack.deckCover}
 																               view="packs"
 																               isPrivatePack={pack.private}
 																               id={pack._id}

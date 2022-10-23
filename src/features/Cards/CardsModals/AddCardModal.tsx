@@ -3,6 +3,7 @@ import {BasicModal} from 'features/Modals/BasicModal';
 import {Button, FormControl, InputLabel, MenuItem, Select, TextField} from '@mui/material';
 import {useAppDispatch} from 'app/store';
 import {createCard, fetchCards} from 'features/Cards/cards-reducer';
+import {convertFileToBase64} from "../../../utils/convertFileToBase64";
 
 
 interface IProps {
@@ -23,17 +24,11 @@ export const AddCardModal = ({packId}: IProps) => {
             const file = e.target.files[0]
 
             if (file.size < 4000000) {
-                // https://developer.mozilla.org/ru/docs/Web/API/FileReader/FileReader
-                const reader = new FileReader();
-
-                reader.onloadend = () => {
-                    const file64 = reader.result as string
+                convertFileToBase64(file, (file64: string) => {
                     setQuestionImg(file64)
-                }
-                // https://developer.mozilla.org/ru/docs/Web/API/FileReader/readAsDataURL
-                reader.readAsDataURL(file)
+                })
             } else {
-                console.error('Error: ', 'Файл слишком большого размера')
+                alert('Error: Файл слишком большого размера')
             }
         }
     }
@@ -41,7 +36,7 @@ export const AddCardModal = ({packId}: IProps) => {
 
     const handleSave = async () => {
         if (questionFormat === 'Text') {
-            await dispatch(createCard({cardsPack_id: packId, answer, question}))
+            await dispatch(createCard({cardsPack_id: packId, question, answer}))
         }
         if (questionFormat === 'Image') {
             await dispatch(createCard({cardsPack_id: packId, questionImg, answer}))
@@ -77,8 +72,8 @@ export const AddCardModal = ({packId}: IProps) => {
                                 <MenuItem value='Image'>Image</MenuItem>
                             </Select>
                         </FormControl>
-                        {questionFormat === 'Text'
-                            ? <>
+                        {questionFormat === 'Text' &&
+                            <>
                                 <TextField value={question}
                                            onChange={(e) => setQuestion(e.currentTarget.value)}
                                            variant="standard"
@@ -90,9 +85,11 @@ export const AddCardModal = ({packId}: IProps) => {
                                            variant="standard"
                                            label="Answer" fullWidth/>
                             </>
-                            : <>
+                        }
+                        {questionFormat === 'Image' &&
+                            <>
                                 {questionImg && <img style={{width: '100%'}} src={questionImg} alt="question image"/>}
-                                <Button fullWidth variant="contained" component="label">
+                                <Button sx={{margin: '20px 0'}} fullWidth variant="contained" component="label">
                                     Upload question image
                                     <input onChange={uploadHandler} hidden accept="image/*" multiple type="file"/>
                                 </Button>

@@ -3,18 +3,19 @@ import {BasicModal} from 'features/Modals/BasicModal';
 import {Button, Checkbox, FormControlLabel, TextField} from '@mui/material';
 import {useAppDispatch} from 'app/store';
 import {createPack, fetchPacks} from 'features/Packs/packs-reducer';
+import {convertFileToBase64} from "../../../utils/convertFileToBase64";
 
 export const AddPackModal = () => {
     const dispatch = useAppDispatch()
-    const [value, setValue] = useState('')
-    const [checked, setChecked] = useState(false)
+    const [name, setName] = useState('')
+    const [isPrivate, setIsPrivate] = useState(false)
     const [open, setOpen] = useState(false)
     const [deckCover, setDeckCover] = useState('')
 
     const handleClose = () => {
         setOpen(false)
-        setValue('')
-        setChecked(false)
+        setName('')
+        setIsPrivate(false)
     }
 
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -22,23 +23,17 @@ export const AddPackModal = () => {
             const file = e.target.files[0]
 
             if (file.size < 4000000) {
-                // https://developer.mozilla.org/ru/docs/Web/API/FileReader/FileReader
-                const reader = new FileReader();
-
-                reader.onloadend = () => {
-                    const file64 = reader.result as string
+                convertFileToBase64(file, (file64: string) => {
                     setDeckCover(file64)
-                }
-                // https://developer.mozilla.org/ru/docs/Web/API/FileReader/readAsDataURL
-                reader.readAsDataURL(file)
+                })
             } else {
-                console.error('Error: ', 'Файл слишком большого размера')
+                alert('Error: Файл слишком большого размера')
             }
         }
     }
 
     const handleSave = async () => {
-        await dispatch(createPack({name: value, private: checked, deckCover}))
+        await dispatch(createPack({name, private: isPrivate, deckCover}))
         await dispatch(fetchPacks())
         handleClose()
     }
@@ -52,7 +47,13 @@ export const AddPackModal = () => {
                         title={'Add new pack'}
             >
                 <div>
-                    {deckCover && <img style={{maxWidth: '100%'}} src={deckCover} alt="deck cover"/>}
+                    {deckCover &&
+                        <div style={{height: '300px', textAlign: 'center'}}>
+                            <img style={{maxHeight: '100%', maxWidth: '100%'}}
+                                 src={deckCover}
+                                 alt="deck cover"/>
+                        </div>
+                    }
                     <Button sx={{margin: '20px 0'}} variant="contained" component="label" fullWidth>
                         Upload deck cover
                         <input onChange={uploadHandler} hidden accept="image/*" multiple type="file"/>
@@ -60,11 +61,11 @@ export const AddPackModal = () => {
                     <TextField fullWidth
                                label="Name Pack"
                                variant="standard"
-                               value={value}
-                               onChange={(e) => setValue(e.currentTarget.value)}
+                               value={name}
+                               onChange={(e) => setName(e.currentTarget.value)}
                     />
-                    <FormControlLabel control={<Checkbox checked={checked}
-                                                         onChange={(e) => setChecked(e.currentTarget.checked)}/>}
+                    <FormControlLabel control={<Checkbox checked={isPrivate}
+                                                         onChange={(e) => setIsPrivate(e.currentTarget.checked)}/>}
                                       label="Private pack"
                                       style={{margin: '30px 0'}}
                     />
