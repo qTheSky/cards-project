@@ -69,6 +69,7 @@ export type EditCardType = {
     _id: string
     question: string
     answer: string
+    questionImg?: string
 }
 export type GradeCardParamsType = {
     grade: number

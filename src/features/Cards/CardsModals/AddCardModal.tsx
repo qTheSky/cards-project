@@ -88,7 +88,13 @@ export const AddCardModal = ({packId}: IProps) => {
                         }
                         {questionFormat === 'Image' &&
                             <>
-                                {questionImg && <img style={{width: '100%'}} src={questionImg} alt="question image"/>}
+                                {questionImg &&
+                                    <div style={{height: '300px', textAlign: 'center'}}>
+                                        <img style={{maxHeight: '100%', maxWidth: '100%'}}
+                                             src={questionImg}
+                                             alt="question image"/>
+                                    </div>
+                                }
                                 <Button sx={{margin: '20px 0'}} fullWidth variant="contained" component="label">
                                     Upload question image
                                     <input onChange={uploadHandler} hidden accept="image/*" multiple type="file"/>

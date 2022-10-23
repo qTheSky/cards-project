@@ -28,6 +28,7 @@ export const LearnPage = () => {
     const [isAnswerShowed, setIsAnswerShowed] = useState(false)
     const [chosenGrade, setChosenGrade] = useState(0)
     const [card, setCard] = useState<any>({})
+    const [first, setFirst] = useState(true)
     const grades = [1, 2, 3, 4, 5]
 
 
@@ -51,13 +52,15 @@ export const LearnPage = () => {
     useEffect(() => {
         dispatch(setCardsSearchParams({pageCount: 99999}))
         dispatch(fetchCards(packId))
+        if (first) {
+            setFirst(false)
+        }
     }, [])
 
 
     useEffect(() => {
-        if (cards.length > 0 && !card.cardsPack_id) setCard(getCard(cards))
+        if (cards.length > 0 && !first) setCard(getCard(cards))
     }, [cards])
-
     if (!isLoggedIn) return <Navigate to={PATH.login}/>
     return (
         <div>

@@ -13,7 +13,7 @@ interface IProps {
     packName: string
     isPrivatePack: boolean
     view: 'packOwnerMenu' | 'packs'
-    deckCover?: string
+    deckCover: string
 }
 
 export const EditPackModal = ({id, disabled, isPrivatePack, packName, view, deckCover}: IProps) => {
@@ -47,7 +47,7 @@ export const EditPackModal = ({id, disabled, isPrivatePack, packName, view, deck
     }
 
     const handleSave = async () => {
-        await dispatch(editPack({name, private: isPrivate, _id: id, deckCover: newDeckCover || ''}))
+        await dispatch(editPack({name, private: isPrivate, _id: id, deckCover: newDeckCover}))
         if (view === 'packs') {
             await dispatch(fetchPacks())
         }
