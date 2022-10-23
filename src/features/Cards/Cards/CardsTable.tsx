@@ -71,15 +71,17 @@ export const CardsTable = () => {
                             <TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
                             <TableCell><Rating value={card.grade} readOnly/></TableCell>
                             {isOwner &&
-                                <TableCell sx={{display: 'flex'}}>
-                                    <EditCardModal cardId={card._id}
-                                                   questionImg={card.questionImg}
-                                                   answer={card.answer}
-                                                   question={card.question}
-                                                   packId={card.cardsPack_id}
-                                    />
-                                    <DeleteCardModal packId={packId} cardId={card._id}
-                                                     cardName={card.answer}/>
+                                <TableCell>
+                                    <div style={{display: 'flex'}}>
+                                        <EditCardModal cardId={card._id}
+                                                       questionImg={card.questionImg}
+                                                       answer={card.answer}
+                                                       question={card.question}
+                                                       packId={card.cardsPack_id}
+                                        />
+                                        <DeleteCardModal packId={packId} cardId={card._id}
+                                                         cardName={card.answer}/>
+                                    </div>
                                 </TableCell>
                             }
                         </TableRow>
