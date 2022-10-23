@@ -2,7 +2,7 @@ import {Button, Container, FormControl, FormControlLabel, Paper, Radio, RadioGro
 import React, {useEffect, useState} from 'react';
 import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPackListLink';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {fetchCards, gradeCard, setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {fetchCards, gradeCard, resetCardsState, setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {Navigate, useParams} from 'react-router-dom';
 import {CardType} from 'api/cardsApi';
 import {PATH} from 'app/RouteVariables';
@@ -43,6 +43,7 @@ export const LearnPage = () => {
     useEffect(() => {
         return () => {
             dispatch(setCardsSearchParams({pageCount: 10}))
+            dispatch(resetCardsState())
             setCard({})
         }
     }, [])
@@ -52,8 +53,9 @@ export const LearnPage = () => {
         dispatch(fetchCards(packId))
     }, [])
 
+
     useEffect(() => {
-        if (cards.length > 0 && !card.grade) setCard(getCard(cards))
+        if (cards.length > 0 && !card.cardsPack_id) setCard(getCard(cards))
     }, [cards])
 
     if (!isLoggedIn) return <Navigate to={PATH.login}/>
