@@ -16,13 +16,13 @@ import {useAppDispatch, useAppSelector} from 'app/store';
 import SchoolIcon from '@mui/icons-material/School';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
-import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
 import {TableHeaderItem} from 'features/Packs/Packs/TableHeaderItem';
 import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
 import {getMaxCardsCountFromState, getPacks, getPacksSearchParams, getPackTotalCount} from 'features/Packs/selectors';
 import {getIsAppAppMakingRequest} from 'app/selectors';
 import {getAuthUserId} from 'features/Profile/selectors';
 import {PacksTableSkeleton} from 'features/Packs/Packs/PacksTableSkeleton/PacksTableSkeleton';
+import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
 
 export const PacksTable = () => {
 		const dispatch = useAppDispatch()
@@ -100,8 +100,7 @@ export const PacksTable = () => {
 																		<DeletePackModal packId={pack._id}
 																		                 packName={pack.name}
 																		                 view="packs"
-																		                 disabled={pack.user_id !== authUserId}
-																		/>
+																		                 disabled={pack.user_id !== authUserId}/>
 																</TableCell>
 														</TableRow>
 												))}

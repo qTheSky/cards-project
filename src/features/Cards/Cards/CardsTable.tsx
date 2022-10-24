@@ -12,15 +12,13 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
-import {useParams} from 'react-router-dom';
 import {setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {EditCardModal} from '../CardsModals/EditCardModal';
 import {getCards, getCardsSearchParams, getCardsTotalCount, getPackOwnerId} from 'features/Cards/selectors';
 import {getAuthUserId} from 'features/Profile/selectors';
+import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
 
 export const CardsTable = () => {
-		const {packId} = useParams() as { packId: string }
 		const dispatch = useAppDispatch()
 		const cardsTotalCount = useAppSelector(getCardsTotalCount)
 		const {pageCount, page} = useAppSelector(getCardsSearchParams)
@@ -79,7 +77,7 @@ export const CardsTable = () => {
 																				               questionImg={card.questionImg}
 																				               answer={card.answer}
 																				               question={card.question}/>
-																				<DeleteCardModal packId={packId} cardId={card._id}
+																				<DeleteCardModal cardId={card._id}
 																				                 cardName={card.answer}/>
 																		</div>
 																</TableCell>

@@ -1,46 +1,38 @@
-import React, {useState} from 'react';
-import {BasicModal} from 'features/Modals/BasicModal';
-import {Button, IconButton} from '@mui/material';
-import {useAppDispatch} from 'app/store';
+import React from 'react';
+import {DeleteModal} from 'features/Modals/DeleteModal';
+import {IconButton} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {useModal} from 'common/hooks/useModals';
+import {useParams} from 'react-router-dom';
+import {useAppDispatch} from 'app/store';
 import {deleteCard, fetchCards} from 'features/Cards/cards-reducer';
 
 
 interface IProps {
-		cardName: string
 		cardId: string
-		packId:string
+		cardName: string
 }
 
-export const DeleteCardModal = ({cardName, cardId,packId}: IProps) => {
+export const DeleteCardModal = ({cardId, cardName}: IProps) => {
 		const dispatch = useAppDispatch()
-		const [open, setOpen] = useState(false)
-
+		const {isModalOpen, openModal, closeModal} = useModal()
+		const {packId} = useParams() as { packId: string }
 
 		const handleDelete = async () => {
 				await dispatch(deleteCard(cardId))
 				await dispatch(fetchCards(packId))
-				setOpen(false)
+				closeModal()
 		}
-
 		return (
-				<div>
-						<IconButton onClick={() => setOpen(true)}>
+				<>
+						<IconButton onClick={openModal}>
 								<DeleteIcon/>
 						</IconButton>
-						<BasicModal open={open}
-						            handleClose={() => setOpen(false)}
-						            title={'Delete Card'}>
-								<div>
-										<div style={{margin: '30px 0'}}>
-												<p>Do you really want to remove <b>{cardName}</b>?</p>
-										</div>
-										<div style={{display: 'flex', justifyContent: 'space-between'}}>
-												<Button variant="outlined" onClick={() => setOpen(false)}>Cancel</Button>
-												<Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
-										</div>
-								</div>
-						</BasicModal>
-				</div>
+						<DeleteModal handleDelete={handleDelete}
+						             closeModal={closeModal}
+						             open={isModalOpen}
+						             title="Delete card"
+						             cardName={cardName}/>
+				</>
 		);
 };

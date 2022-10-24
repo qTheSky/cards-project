@@ -1,64 +1,58 @@
-import React, {useState} from 'react';
-import {BasicModal} from 'features/Modals/BasicModal';
-import {Button, IconButton} from '@mui/material';
+import React from 'react';
+import {DeleteModal} from 'features/Modals/DeleteModal';
+import {IconButton} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {useModal} from 'common/hooks/useModals';
 import {useAppDispatch} from 'app/store';
 import {deletePack, fetchPacks} from 'features/Packs/packs-reducer';
-import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {useNavigate} from 'react-router-dom';
+import {PATH} from 'app/RouteVariables';
+
 
 interface IProps {
-		disabled?: boolean
-		packName: string
 		packId: string
-		view: 'packOwnerMenu' | 'packs'
-		setIsPackDeleted?: () => void
+		packName: string
+		view: 'packs' | 'packOwnerMenu'
+		disabled?: boolean
 }
 
-export const DeletePackModal = ({disabled, packName, packId, view, setIsPackDeleted}: IProps) => {
+export const DeletePackModal = ({packName, packId, view, disabled}: IProps) => {
 		const dispatch = useAppDispatch()
-		const [open, setOpen] = useState(false)
-
+		const {isModalOpen, openModal, closeModal} = useModal()
+		const navigate = useNavigate()
 
 		const handleDelete = async () => {
-				await dispatch(deletePack(packId))
 				if (view === 'packs') {
+						await dispatch(deletePack(packId))
 						await dispatch(fetchPacks())
 				}
-				if (setIsPackDeleted) {
-						setIsPackDeleted()
+				if (view === 'packOwnerMenu') {
+						await dispatch(deletePack(packId))
+						navigate(PATH.main)
 				}
-				setOpen(false)
+				closeModal()
 		}
-
 		return (
-				<div>
+				<>
 						{view === 'packs' &&
-								<IconButton onClick={() => setOpen(true)} disabled={disabled}>
+								<IconButton onClick={openModal} disabled={disabled}>
 										<DeleteIcon/>
 								</IconButton>
 						}
 						{view === 'packOwnerMenu' &&
-								<div onClick={() => setOpen(true)}
+								<div onClick={openModal}
 								     style={{display: 'flex', gap: '5px', alignItems: 'center', cursor: 'pointer'}}>
 										<DeleteOutlineOutlinedIcon/>
 										Delete
 								</div>
 						}
-						<BasicModal open={open}
-						            handleClose={() => setOpen(false)}
-						            title={'Delete Pack'}
-						>
-								<div>
-										<div style={{margin: '30px 0'}}>
-												<p>Do you really want to remove <b>{packName}</b>?</p>
-												<p>All cards will be deleted.</p>
-										</div>
-										<div style={{display: 'flex', justifyContent: 'space-between'}}>
-												<Button variant="outlined" onClick={() => setOpen(false)}>Cancel</Button>
-												<Button variant="contained" color="error" onClick={handleDelete}>Delete</Button>
-										</div>
-								</div>
-						</BasicModal>
-				</div>
+						<DeleteModal handleDelete={handleDelete}
+						             closeModal={closeModal}
+						             open={isModalOpen}
+						             title="Delete pack"
+						             packName={packName}
+						/>
+				</>
 		);
 };
