@@ -29,7 +29,6 @@ export const DeleteCardModal = ({cardName, cardId,packId}: IProps) => {
 								<DeleteIcon/>
 						</IconButton>
 						<BasicModal open={open}
-						            handleOpen={() => setOpen(true)}
 						            handleClose={() => setOpen(false)}
 						            title={'Delete Card'}>
 								<div>

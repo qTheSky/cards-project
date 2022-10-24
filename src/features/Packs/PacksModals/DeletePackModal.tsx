@@ -44,10 +44,7 @@ export const DeletePackModal = ({disabled, packName, packId, view, setIsPackDele
 										Delete
 								</div>
 						}
-
-
 						<BasicModal open={open}
-						            handleOpen={() => setOpen(true)}
 						            handleClose={() => setOpen(false)}
 						            title={'Delete Pack'}
 						>

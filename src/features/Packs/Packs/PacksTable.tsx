@@ -17,8 +17,8 @@ import SchoolIcon from '@mui/icons-material/School';
 import {Link} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
-import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
 import {TableHeaderItem} from 'features/Packs/Packs/TableHeaderItem';
+import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
 
 export const PacksTable = () => {
 		const dispatch = useAppDispatch()
@@ -77,10 +77,10 @@ export const PacksTable = () => {
 																		</IconButton>
 																</Link>
 																<EditPackModal packName={pack.name}
-																			   deckCover={pack.deckCover}
-																               view="packs"
+																               deckCover={pack.deckCover}
 																               isPrivatePack={pack.private}
-																               id={pack._id}
+																               view="packs"
+																               packId={pack._id}
 																               disabled={pack.user_id !== authUserId}/>
 																<DeletePackModal packId={pack._id}
 																                 packName={pack.name}

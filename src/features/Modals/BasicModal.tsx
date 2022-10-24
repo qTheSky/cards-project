@@ -9,7 +9,6 @@ type PropsType = {
 		title: string
 		children: ReactNode
 		open: boolean,
-		handleOpen: () => void
 		handleClose: () => void
 }
 
