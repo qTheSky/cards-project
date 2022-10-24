@@ -24,6 +24,7 @@ export const PacksPage = () => {
 		}, [page, packName, pageCount, sortPacks, user_id, min, max])
 
 
+
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		return (
 				<div>
