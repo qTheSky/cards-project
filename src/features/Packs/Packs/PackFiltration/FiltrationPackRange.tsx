@@ -4,12 +4,14 @@ import {useDebounce} from 'common/hooks/useDebounce';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {setPackSearchParams} from 'features/Packs/packs-reducer';
 import {getMaxCardsCountFromState, getMinCardsCountFromState, getPacksSearchParams} from 'features/Packs/selectors';
+import {getIsAppAppMakingRequest} from 'app/selectors';
 
 export const FiltrationPackRange = () => {
 		const dispatch = useAppDispatch()
 		const minCardsCountFromState = useAppSelector(getMinCardsCountFromState)
 		const maxCardsCountFromState = useAppSelector(getMaxCardsCountFromState)
 		const {min, max, user_id} = useAppSelector(getPacksSearchParams)
+		const isAppMakeRequest = useAppSelector(getIsAppAppMakingRequest)
 		const [value, setValue] = React.useState<number[]>([0, 0])
 		const debouncedValue = useDebounce(value, 1000)
 		const [isRangeTouched, setIsRangeTouched] = useState(false)
@@ -57,7 +59,7 @@ export const FiltrationPackRange = () => {
 								        min={minCardsCountFromState}
 								        max={maxCardsCountFromState}
 								        disableSwap
-								        disabled={maxCardsCountFromState === 0 || minCardsCountFromState === maxCardsCountFromState}
+								        disabled={maxCardsCountFromState === 0 || minCardsCountFromState === maxCardsCountFromState || isAppMakeRequest}
 								/>
 								<Paper style={{minWidth: '36px', height: '36px', textAlign: 'center', lineHeight: '36px'}}>
 										{maxCardsCountFromState}

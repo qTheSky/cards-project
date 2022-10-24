@@ -20,13 +20,13 @@ import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
 import {TableHeaderItem} from 'features/Packs/Packs/TableHeaderItem';
 import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
 import {getMaxCardsCountFromState, getPacks, getPacksSearchParams, getPackTotalCount} from 'features/Packs/selectors';
-import {isAppAppMakingRequest} from 'app/selectors';
+import {getIsAppAppMakingRequest} from 'app/selectors';
 import {getAuthUserId} from 'features/Profile/selectors';
 import {PacksTableSkeleton} from 'features/Packs/Packs/PacksTableSkeleton/PacksTableSkeleton';
 
 export const PacksTable = () => {
 		const dispatch = useAppDispatch()
-		const isAppMakingRequest = useAppSelector(isAppAppMakingRequest)
+		const isAppMakingRequest = useAppSelector(getIsAppAppMakingRequest)
 		const packs = useAppSelector(getPacks)
 		const packTotalCount = useAppSelector(getPackTotalCount)
 		const authUserId = useAppSelector(getAuthUserId)
@@ -54,9 +54,9 @@ export const PacksTable = () => {
 
 								<TableHead sx={{backgroundColor: '#EFEFEF'}}>
 										<TableRow>
-												<TableHeaderItem width="45%" name="Name" sortName="name"/>
+												<TableHeaderItem width="40%" name="Name" sortName="name"/>
 												<TableHeaderItem width="10%" name="Cards" sortName="cardsCount"/>
-												<TableHeaderItem width="15%" name="Last updated" sortName="updated"/>
+												<TableHeaderItem width="20%" name="Last updated" sortName="updated"/>
 												<TableHeaderItem width="15%" name="Created by" sortName="created"/>
 												<TableCell align="center" sx={{width: '15%'}}>Actions</TableCell>
 										</TableRow>
@@ -83,7 +83,7 @@ export const PacksTable = () => {
 																		</Link>
 																</TableCell>
 																<TableCell>{pack.cardsCount}</TableCell>
-																<TableCell>{dayjs(pack.updated).format('DD.MM.YYYY')}</TableCell>
+																<TableCell>{dayjs(pack.updated).format('DD.MM.YYYY HH:mm')}</TableCell>
 																<TableCell>{pack.user_name}</TableCell>
 																<TableCell sx={{display: 'flex'}}>
 																		<Link to={PATH.learn + pack._id}>
@@ -105,7 +105,7 @@ export const PacksTable = () => {
 																</TableCell>
 														</TableRow>
 												))}
-												{packTotalCount > 0 &&
+												{!!packTotalCount &&
 														<TableRow>
 																<TablePagination rowsPerPageOptions={[5, 10, 25, 50, 100]}
 																                 count={packTotalCount}
