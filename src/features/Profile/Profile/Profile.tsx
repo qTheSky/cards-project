@@ -13,6 +13,7 @@ import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import {convertFileToBase64} from 'utils/convertFileToBase64';
 import {getAuthUserProfile} from 'features/Profile/selectors';
 import {getIsLoggedIn} from 'features/Auth/selectors';
+import {appActions} from 'common/CommonActions/App';
 
 export const Profile = () => {
 		const dispatch = useAppDispatch()
@@ -29,7 +30,7 @@ export const Profile = () => {
 										setAva(file64)
 								})
 						} else {
-								alert('Error: Файл слишком большого размера')
+								dispatch(appActions.setAppError('The file is too large'))
 						}
 				}
 		}
@@ -50,15 +51,17 @@ export const Profile = () => {
 										<div className={s.profileInfoWrapper}>
 												<h1>Personal Information</h1>
 												<div style={{position: 'relative'}}>
-														<img className={s.profileAvatar} src={ava || noAva} alt="avatar"/>
-														<IconButton component="label">
+														<img className={s.profileAvatar} src={ava || noAva}
+														     alt="avatar"/>
+														<IconButton component="label" style={{position: 'absolute', bottom: 5, left: '190px'}}>
 																<CloudUploadOutlinedIcon/>
 																<input onChange={uploadAvaHandler} hidden accept="image/*" multiple type="file"/>
 														</IconButton>
 												</div>
 												<EditableText callBack={changeNameHandle} value={name}/>
 												<h2>{email}</h2>
-												<Button sx={{borderRadius: '20px'}} variant="outlined" color="info"
+												<Button sx={{borderRadius: '20px'}}
+												        variant="outlined"
 												        onClick={onLogoutClick}>Log
 														out</Button>
 										</div>
