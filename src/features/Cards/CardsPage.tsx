@@ -7,14 +7,16 @@ import {fetchCards, resetCardsState} from 'features/Cards/cards-reducer';
 import {EmptyCards} from 'features/Cards/Cards/EmptyCards';
 import {Cards} from 'features/Cards/Cards/Cards';
 import {PATH} from 'app/RouteVariables';
+import {getCardsSearchParams, getCardsTotalCount, getPackName} from 'features/Cards/selectors';
+import {getIsLoggedIn} from 'features/Auth/selectors';
 
 export const CardsPage = () => {
 		const {packId} = useParams() as { packId: string }
 		const dispatch = useAppDispatch()
-		const cardsTotalCount = useAppSelector(state => state.cards.cardsState.cardsTotalCount)
-		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-		const {page, pageCount, cardQuestion} = useAppSelector(state => state.cards.searchParams)
-		const packName = useAppSelector(state => state.cards.cardsState.packName)
+		const cardsTotalCount = useAppSelector(getCardsTotalCount)
+		const isLoggedIn = useAppSelector(getIsLoggedIn)
+		const {page, pageCount, cardQuestion} = useAppSelector(getCardsSearchParams)
+		const packName = useAppSelector(getPackName)
 		const [isSearching, setIsSearching] = useState(false)
 
 		useEffect(() => {

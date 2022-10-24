@@ -19,14 +19,17 @@ import {PATH} from 'app/RouteVariables';
 import {DeletePackModal} from 'features/Packs/PacksModals/DeletePackModal';
 import {TableHeaderItem} from 'features/Packs/Packs/TableHeaderItem';
 import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
+import {getPacks, getPacksSearchParams, getPackTotalCount} from 'features/Packs/selectors';
+import {getIsAppLoading} from 'app/selectors';
+import {getAuthUserId} from 'features/Profile/selectors';
 
 export const PacksTable = () => {
 		const dispatch = useAppDispatch()
-		const isAppMakingRequest = useAppSelector(state => state.app.isLoading)
-		const packs = useAppSelector(state => state.packs.packsState.cardPacks)
-		const packTotalCount = useAppSelector(state => state.packs.packsState.cardPacksTotalCount)
-		const authUserId = useAppSelector(state => state.profile.profile._id)
-		const {pageCount, page} = useAppSelector(state => state.packs.searchParams)
+		const isAppMakingRequest = useAppSelector(getIsAppLoading)
+		const packs = useAppSelector(getPacks)
+		const packTotalCount = useAppSelector(getPackTotalCount)
+		const authUserId = useAppSelector(getAuthUserId)
+		const {pageCount, page} = useAppSelector(getPacksSearchParams)
 
 		const onPageChange = (event: unknown, newPage: number) => {
 				dispatch(setPackSearchParams({page: newPage + 1}))

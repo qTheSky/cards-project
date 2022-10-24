@@ -8,6 +8,8 @@ import {setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {PackOwnerMenu} from 'features/Cards/Cards/PackOwnerMenu';
 import {PATH} from 'app/RouteVariables';
 import {AddCardModal} from '../CardsModals/AddCardModal';
+import {getCardsSearchParams, getPackName, getPackOwnerId} from 'features/Cards/selectors';
+import {getAuthUserId} from 'features/Profile/selectors';
 
 
 interface IProps {
@@ -17,11 +19,11 @@ interface IProps {
 export const Cards = ({switchIsSearching}: IProps) => {
 		const dispatch = useAppDispatch()
 		const {packId} = useParams() as { packId: string }
-		const packName = useAppSelector(state => state.cards.cardsState.packName)
-		const authUserId = useAppSelector(state => state.profile.profile._id)
-		const packOwnerId = useAppSelector(state => state.cards.cardsState.packUserId)
+		const packName = useAppSelector(getPackName)
+		const authUserId = useAppSelector(getAuthUserId)
+		const packOwnerId = useAppSelector(getPackOwnerId)
 		const packDeckCover = useAppSelector(state => state.cards.cardsState.packDeckCover)
-		const searchedQuestion = useAppSelector(state => state.cards.searchParams.cardQuestion)
+		const {cardQuestion} = useAppSelector(getCardsSearchParams)
 		const isOwner = authUserId === packOwnerId
 
 		const [searchByQuestion, setSearchByQuestion] = useState<string>('')
@@ -39,9 +41,12 @@ export const Cards = ({switchIsSearching}: IProps) => {
 		}, [])
 
 		useEffect(() => {
-				if (searchByQuestion !== searchedQuestion) {
+				if (searchByQuestion !== cardQuestion) {
 						switchIsSearching(true)
 						dispatch(setCardsSearchParams({cardQuestion: searchByQuestion}))
+				}
+				if (debouncedValue === '') {
+						switchIsSearching(false)
 				}
 		}, [debouncedValue])
 		return (
@@ -51,14 +56,18 @@ export const Cards = ({switchIsSearching}: IProps) => {
 										<h1>{packName}</h1>
 										{isOwner && <PackOwnerMenu/>}
 								</div>
-								<div>{isOwner
+								{isOwner
 										? <AddCardModal/>
-										: <Link to={PATH.learn + packId}><Button variant="contained">Learn to pack</Button></Link>}</div>
+										: <Link to={PATH.learn + packId}><Button variant="contained">Learn to pack</Button></Link>
+								}
 						</div>
 						{packDeckCover &&
-								<img style={{width: '170px', height: '107px', margin: '30px 0'}} src={packDeckCover} alt="deck cover"/>}
+								<img style={{width: '170px', height: '107px', margin: '30px 0'}} src={packDeckCover} alt="deck cover"/>
+						}
 
-						<TextField value={searchByQuestion} onChange={handleChangeSearchByQuestion} label="Search by question"
+						<TextField value={searchByQuestion}
+						           onChange={handleChangeSearchByQuestion}
+						           label="Search by question"
 						           size="small" fullWidth/>
 						<CardsTable/>
 				</>

@@ -7,11 +7,12 @@ import {PATH} from 'app/RouteVariables';
 import {SchoolOutlined} from '@mui/icons-material';
 import {Paper} from '@mui/material';
 import {EditPackModal} from 'features/Packs/PacksModals/EditPackModal';
+import {getCardsState} from 'features/Cards/selectors';
 
 export const PackOwnerMenu = () => {
 		const {packId} = useParams() as { packId: string }
 
-		const {packName, packPrivate, packDeckCover} = useAppSelector(state => state.cards.cardsState)
+		const {packName, packPrivate, packDeckCover} = useAppSelector(getCardsState)
 		const [isMenuOpen, setIsMenuOpen] = useState(false)
 		const [isPackDeleted, setIsPackDeleted] = useState(false)
 

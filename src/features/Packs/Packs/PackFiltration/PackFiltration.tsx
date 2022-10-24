@@ -5,11 +5,13 @@ import {clearPackSearchParams, setPackSearchParams} from 'features/Packs/packs-r
 import {useDebounce} from 'common/hooks/useDebounce';
 import {FiltrationPackRange} from 'features/Packs/Packs/PackFiltration/FiltrationPackRange';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import {getAuthUserId} from 'features/Profile/selectors';
+import {getPacksSearchParams} from 'features/Packs/selectors';
 
 export const PackFiltration = () => {
 		const dispatch = useAppDispatch()
-		const authUserId = useAppSelector(state => state.profile.profile._id)
-		const {user_id, packName} = useAppSelector(state => state.packs.searchParams)
+		const authUserId = useAppSelector(getAuthUserId)
+		const {user_id, packName} = useAppSelector(getPacksSearchParams)
 
 
 		const [packNameSearch, setPackNameSearch] = useState<string>(packName)

@@ -7,12 +7,13 @@ import {fetchPacks} from 'features/Packs/packs-reducer';
 import {PacksTable} from 'features/Packs/Packs/PacksTable';
 import {PackFiltration} from 'features/Packs/Packs/PackFiltration/PackFiltration';
 import {AddPackModal} from 'features/Packs/PacksModals/AddPackModal';
+import {getPacksSearchParams} from 'features/Packs/selectors';
+import {getIsLoggedIn} from 'features/Auth/selectors';
 
 export const PacksPage = () => {
 		const dispatch = useAppDispatch()
-		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-		const {page, packName, pageCount, sortPacks, max, min, user_id} = useAppSelector
-		(state => state.packs.searchParams)
+		const isLoggedIn = useAppSelector(getIsLoggedIn)
+		const {page, packName, pageCount, sortPacks, max, min, user_id} = useAppSelector(getPacksSearchParams)
 
 
 		useEffect(() => {

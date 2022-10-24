@@ -17,7 +17,7 @@ export const CardModal = ({open, closeModal, title, ...props}: IProps) => {
 		const [question, setQuestion] = useState(props.question || '')
 		const [answer, setAnswer] = useState(props.answer || '')
 		const [questionImg, setQuestionImg] = useState(props.questionImg || '')
-		const [questionFormat, setQuestionFormat] = useState('')
+		const [questionFormat, setQuestionFormat] = useState('Text')
 
 
 		const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,6 @@ export const CardModal = ({open, closeModal, title, ...props}: IProps) => {
 						setAnswer(props.answer || '')
 						setQuestionImg(props.questionImg || '')
 						setQuestion(props.question || '')
-						setQuestionFormat('')
 				}
 		}, [open])
 
@@ -63,6 +62,7 @@ export const CardModal = ({open, closeModal, title, ...props}: IProps) => {
 												labelId="select-label"
 												id="demo-simple-select"
 												value={questionFormat}
+												defaultValue={questionFormat}
 												size="small"
 												label="Choose a question format"
 												onChange={(e) => setQuestionFormat(e.target.value)}
@@ -71,47 +71,45 @@ export const CardModal = ({open, closeModal, title, ...props}: IProps) => {
 												<MenuItem value="Image">Image</MenuItem>
 										</Select>
 								</FormControl>
-								{!!questionFormat &&
-										<div>
-												{questionFormat === 'Image' &&
-														<>
-																{questionImg &&
-																		<div style={{height: '300px', textAlign: 'center'}}>
-																				<img style={{maxHeight: '100%', maxWidth: '100%'}}
-																				     src={questionImg}
-																				     alt="question"/>
-																		</div>
-																}
-																<Button sx={{margin: '20px 0'}} fullWidth variant="contained" component="label">
-																		Upload question image
-																		<input onChange={uploadHandler} hidden accept="image/*" multiple type="file"/>
-																</Button>
-																<TextField value={answer}
-																           onChange={(e) => setAnswer(e.currentTarget.value)}
-																           variant="standard"
-																           label="Answer" fullWidth/>
-														</>
-												}
-												{questionFormat === 'Text' &&
-														<>
-																<TextField value={question}
-																           onChange={(e) => setQuestion(e.currentTarget.value)}
-																           variant="standard"
-																           label="Question"
-																           fullWidth
-																           style={{marginBottom: '15px'}}/>
-																<TextField value={answer}
-																           onChange={(e) => setAnswer(e.currentTarget.value)}
-																           variant="standard"
-																           label="Answer" fullWidth/>
-														</>
-												}
-												<div style={{display: 'flex', justifyContent: 'space-between', marginTop: '40px'}}>
-														<Button variant="outlined" onClick={closeModal}>Cancel</Button>
-														<Button variant="contained" onClick={handleSave}>Save</Button>
-												</div>
+								<div>
+										{questionFormat === 'Image' &&
+												<>
+														{questionImg &&
+																<div style={{height: '300px', textAlign: 'center'}}>
+																		<img style={{maxHeight: '100%', maxWidth: '100%'}}
+																		     src={questionImg}
+																		     alt="question"/>
+																</div>
+														}
+														<Button sx={{margin: '20px 0'}} fullWidth variant="contained" component="label">
+																Upload question image
+																<input onChange={uploadHandler} hidden accept="image/*" multiple type="file"/>
+														</Button>
+														<TextField value={answer}
+														           onChange={(e) => setAnswer(e.currentTarget.value)}
+														           variant="standard"
+														           label="Answer" fullWidth/>
+												</>
+										}
+										{questionFormat === 'Text' &&
+												<>
+														<TextField value={question}
+														           onChange={(e) => setQuestion(e.currentTarget.value)}
+														           variant="standard"
+														           label="Question"
+														           fullWidth
+														           style={{marginBottom: '15px'}}/>
+														<TextField value={answer}
+														           onChange={(e) => setAnswer(e.currentTarget.value)}
+														           variant="standard"
+														           label="Answer" fullWidth/>
+												</>
+										}
+										<div style={{display: 'flex', justifyContent: 'space-between', marginTop: '40px'}}>
+												<Button variant="outlined" onClick={closeModal}>Cancel</Button>
+												<Button variant="contained" onClick={handleSave}>Save</Button>
 										</div>
-								}
+								</div>
 						</div>
 				</BasicModal>
 		)
