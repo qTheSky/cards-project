@@ -30,6 +30,7 @@ export const CardsPage = () => {
 				}
 		}, [])
 
+
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		if (!packName) return <Container><BackToPackListLink/></Container>
 		return (
