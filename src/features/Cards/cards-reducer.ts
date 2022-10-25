@@ -93,10 +93,13 @@ export const slice = createSlice({
 						.addCase(fetchCards.fulfilled, (state, action) => {
 								state.cardsState = action.payload
 						})
+						.addCase(gradeCard.pending, (state, action) => {
+								const index = state.cardsState.cards.findIndex(card => card._id === action.meta.arg.card_id)
+								state.cardsState.cards[index].shots += 1
+						})
 						.addCase(gradeCard.fulfilled, (state, action) => {
 								const index = state.cardsState.cards.findIndex(card => card._id === action.payload.card_id)
 								state.cardsState.cards[index].grade = action.payload.grade
-								state.cardsState.cards[index].shots = action.payload.shots
 						})
 						.addCase(editPack.fulfilled, (state, action: PayloadAction<string>) => {
 								state.cardsState.packName = action.payload

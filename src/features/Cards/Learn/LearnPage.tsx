@@ -1,25 +1,15 @@
-import {Button, Container, FormControl, FormControlLabel, Paper, Radio, RadioGroup} from '@mui/material';
+import {Container} from '@mui/material';
 import React, {useEffect, useState} from 'react';
 import {BackToPackListLink} from 'common/components/BackToPackListArrow/BackToPackListLink';
 import {useAppDispatch, useAppSelector} from 'app/store';
-import {fetchCards, gradeCard, resetCardsState, setCardsSearchParams} from 'features/Cards/cards-reducer';
+import {fetchCards, resetCardsState, setCardsSearchParams} from 'features/Cards/cards-reducer';
 import {Navigate, useParams} from 'react-router-dom';
-import {CardType} from 'api/cardsApi';
 import {PATH} from 'app/RouteVariables';
 import {getIsLoggedIn} from 'features/Auth/selectors';
 import {getCards, getPackName} from 'features/Cards/selectors';
+import {getNextCardToLearn} from 'utils/getNextCardToLearn';
+import {LearnPaper} from 'features/Cards/Learn/LearnPaper';
 
-
-const getCard = (cards: CardType[]) => {
-		const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
-		const rand = Math.random() * sum
-		const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-						const newSum = acc.sum + (6 - card.grade) * (6 - card.grade)
-						return {sum: newSum, id: newSum < rand ? i : acc.id}
-				}
-				, {sum: 0, id: -1})
-		return cards[res.id + 1]
-}
 
 export const LearnPage = () => {
 		const dispatch = useAppDispatch()
@@ -27,95 +17,42 @@ export const LearnPage = () => {
 		const isLoggedIn = useAppSelector(getIsLoggedIn)
 		const packName = useAppSelector(getPackName)
 		const cards = useAppSelector(getCards)
-		const [isAnswerShowed, setIsAnswerShowed] = useState(false)
-		const [chosenGrade, setChosenGrade] = useState(0)
-		const [card, setCard] = useState<any>({})
-		const [first, setFirst] = useState(true)
-		const grades = [1, 2, 3, 4, 5]
-
-
-		const onClickNextQuestion = () => {
-				dispatch(gradeCard({grade: chosenGrade, card_id: card._id}))
-				setIsAnswerShowed(false)
-		}
-		const gradeChangeHandle = (event: React.ChangeEvent<HTMLInputElement>) => {
-				setChosenGrade(+event.currentTarget.value)
-		}
+		const [displayedCard, setDisplayedCard] = useState<any>({})
 
 
 		useEffect(() => {
 				return () => {
 						dispatch(setCardsSearchParams({pageCount: 10}))
 						dispatch(resetCardsState())
-						setCard({})
+						setDisplayedCard({})
 				}
 		}, [])
 
 		useEffect(() => {
 				dispatch(setCardsSearchParams({pageCount: 99999}))
 				dispatch(fetchCards(packId))
-				if (first) {
-						setFirst(false)
-				}
 		}, [])
 
 
 		useEffect(() => {
-				if (cards.length > 0 && !first) setCard(getCard(cards))
+				//when first render set card to state
+				if (cards.length && !displayedCard._id) {
+						setDisplayedCard(getNextCardToLearn(cards))
+				}
+				//when card.shots changed set it to state it needs when user click next question attempts count increments
+				const card = cards.find(card => card._id === displayedCard._id)
+				if (card) {
+						setDisplayedCard(card)
+				}
 		}, [cards])
+
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		return (
 				<div>
 						<Container>
 								<BackToPackListLink/>
 								<h1 style={{textAlign: 'center', marginBottom: '20px'}}>Learn ''{packName || 'loading...'}''</h1>
-								<Paper sx={{margin: '0 auto', padding: '30px', maxWidth: '440px'}}>
-										<div style={{marginBottom: '15px'}}>
-												<b>Question: </b>{card.question !== 'no question' && card.question}
-												{card.questionImg && <img style={{width: '373px', height: '119px'}} src={card.questionImg}
-												                          alt="question image"/>}
-										</div>
-										<p style={{marginBottom: '35px', fontSize: '14px', opacity: '0.5'}}>Количество попыток ответов на
-												вопрос: <b>{card.shots}</b></p>
-										{isAnswerShowed
-												? <div>
-														<div style={{marginBottom: '25px'}}>
-																<b>Answer: </b>{card.answer !== 'no answer' && card.answer}
-																{card.answerImg && <img style={{width: '373px', height: '119px'}} src={card.answerImg}
-																                        alt="answer image"/>}
-														</div>
-														<div>
-																<FormControl>
-																		<div>Rate yourself</div>
-																		<RadioGroup onChange={gradeChangeHandle}>
-																				<FormControlLabel value={grades[0]}
-																				                  control={<Radio/>}
-																				                  label="Did not know"/>
-																				<FormControlLabel value={grades[1]}
-																				                  control={<Radio/>}
-																				                  label="Forgot"/>
-																				<FormControlLabel value={grades[2]}
-																				                  control={<Radio/>}
-																				                  label="A lot of thought"/>
-																				<FormControlLabel value={grades[3]}
-																				                  control={<Radio/>}
-																				                  label="Confused"/>
-																				<FormControlLabel value={grades[4]}
-																				                  control={<Radio/>}
-																				                  label="Knew the answer"/>
-																		</RadioGroup>
-																</FormControl>
-														</div>
-														{chosenGrade !== 0 &&
-																<Button variant="contained" onClick={onClickNextQuestion} fullWidth>Next</Button>}
-												</div>
-												: <Button disabled={!card.question}
-												          fullWidth variant="contained"
-												          onClick={() => setIsAnswerShowed(true)}>
-														Show answer
-												</Button>
-										}
-								</Paper>
+								<LearnPaper displayedCard={displayedCard} setDisplayedCard={setDisplayedCard}/>
 						</Container>
 				</div>
 		)

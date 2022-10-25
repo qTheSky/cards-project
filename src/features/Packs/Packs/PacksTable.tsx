@@ -32,7 +32,7 @@ export const PacksTable = () => {
 		const authUserId = useAppSelector(getAuthUserId)
 		const {pageCount, page} = useAppSelector(getPacksSearchParams)
 		const maxCardsCount = useAppSelector(getMaxCardsCountFromState)
-		const [first, setFirst] = useState(true)
+		const [firstLoading, setFirstLoading] = useState(true)
 
 
 		const onPageChange = (event: unknown, newPage: number) => {
@@ -44,8 +44,8 @@ export const PacksTable = () => {
 		}
 
 		useEffect(() => {
-				if (first && maxCardsCount) {
-						setFirst(false)
+				if (firstLoading && maxCardsCount) {
+						setFirstLoading(false)
 				}
 		}, [maxCardsCount])
 		return (
@@ -62,7 +62,7 @@ export const PacksTable = () => {
 										</TableRow>
 								</TableHead>
 
-								{first
+								{firstLoading
 										? <PacksTableSkeleton/>
 										: <TableBody>
 												{packs.map(pack => (
