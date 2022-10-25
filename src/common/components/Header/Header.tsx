@@ -6,13 +6,16 @@ import {Link, useLocation} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import logo from 'assets/logo.svg'
 import noAvatar from 'assets/noAva.png'
+import {getIsLoggedIn} from 'features/Auth/selectors';
+import {getIsAppAppMakingRequest} from 'app/selectors';
+import {getAuthUserProfile} from 'features/Profile/selectors';
 
 export const Header = () => {
-		const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-		const isRequestSending = useAppSelector(state => state.app.isLoading)
-		const userName = useAppSelector(state => state.profile.profile.name)
-		const userAvatar = useAppSelector(state => state.profile.profile.avatar)
+		const isLoggedIn = useAppSelector(getIsLoggedIn)
+		const isRequestSending = useAppSelector(getIsAppAppMakingRequest)
+		const {name, avatar} = useAppSelector(getAuthUserProfile)
 		const {pathname} = useLocation()
+
 		return (
 				<>
 						<header className={s.header} style={{position: 'relative'}}>
@@ -25,9 +28,9 @@ export const Header = () => {
 														? pathname !== PATH.profile &&
 														<Link to={PATH.profile}>
 																<div className={s.profile}>
-																		<h2>{userName}</h2>
+																		<h2>{name}</h2>
 																		<img style={{width: '36px', height: '36px', borderRadius: '50%'}}
-																		     src={userAvatar || noAvatar}
+																		     src={avatar || noAvatar}
 																		     alt="ava"/>
 																</div>
 														</Link>
