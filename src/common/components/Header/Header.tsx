@@ -1,18 +1,16 @@
 import React from 'react';
 import s from 'common/components/Header/Header.module.scss'
 import {useAppSelector} from 'app/store';
-import {Button, Container, LinearProgress} from '@mui/material';
+import {Button, Container} from '@mui/material';
 import {Link, useLocation} from 'react-router-dom';
 import {PATH} from 'app/RouteVariables';
 import logo from 'assets/logo.svg'
 import noAvatar from 'assets/noAva.png'
 import {getIsLoggedIn} from 'features/Auth/selectors';
-import {getIsAppAppMakingRequest} from 'app/selectors';
 import {getAuthUserProfile} from 'features/Profile/selectors';
 
 export const Header = () => {
 		const isLoggedIn = useAppSelector(getIsLoggedIn)
-		const isRequestSending = useAppSelector(getIsAppAppMakingRequest)
 		const {name, avatar} = useAppSelector(getAuthUserProfile)
 		const {pathname} = useLocation()
 
@@ -41,11 +39,6 @@ export const Header = () => {
 												}
 										</div>
 								</Container>
-								{isRequestSending &&
-										<div style={{position: 'absolute', bottom: '0', width: '100%'}}>
-												<LinearProgress/>
-										</div>
-								}
 						</header>
 				</>
 		);

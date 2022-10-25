@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {MainLayout} from 'app/MainLayout';
 import {Login} from 'features/Auth/Login/Login';
 import {Register} from 'features/Auth/Register/Register';
@@ -10,7 +10,7 @@ import {Profile} from 'features/Profile/Profile/Profile';
 import {PacksPage} from 'features/Packs/PacksPage';
 import {CardsPage} from 'features/Cards/CardsPage';
 import {LearnPage} from 'features/Cards/Learn/LearnPage';
-import { Page404 } from 'common/components/404Page/Page404';
+import {Page404} from 'common/components/404Page/Page404';
 
 export const AppRoutes = () => {
 		return (
