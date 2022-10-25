@@ -49,7 +49,7 @@ export const FiltrationPackRange = () => {
 						<h3 style={{fontWeight: '500', fontSize: '14px'}}>Number of cards</h3>
 						<div style={{display: 'flex', justifyContent: 'space-between', gap: '15px'}}>
 								<Paper style={{minWidth: '36px', height: '36px', textAlign: 'center', lineHeight: '36px'}}>
-										{minCardsCountFromState}
+										{minCardsCountFromState || 0}
 								</Paper>
 								<Slider value={value}
 								        onChange={handleRangeChange}
@@ -57,10 +57,10 @@ export const FiltrationPackRange = () => {
 								        min={minCardsCountFromState}
 								        max={maxCardsCountFromState}
 								        disableSwap
-								        disabled={maxCardsCountFromState === 0 || minCardsCountFromState === maxCardsCountFromState}
+								        disabled={minCardsCountFromState === maxCardsCountFromState}
 								/>
 								<Paper style={{minWidth: '36px', height: '36px', textAlign: 'center', lineHeight: '36px'}}>
-										{maxCardsCountFromState}
+										{maxCardsCountFromState || 0}
 								</Paper>
 						</div>
 				</div>

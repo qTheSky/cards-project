@@ -1,11 +1,8 @@
-import React, {useState} from 'react';
-import {Checkbox, TableCell} from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import React, {useEffect, useState} from 'react';
+import {TableCell, TableSortLabel} from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {setPackSearchParams} from 'features/Packs/packs-reducer';
-import {getIsAppAppMakingRequest} from 'app/selectors';
-
+import {getPacksSearchParams} from 'features/Packs/selectors';
 
 interface IProps {
 		name: string
@@ -15,22 +12,35 @@ interface IProps {
 
 export const TableHeaderItem = ({name, sortName, width}: IProps) => {
 		const dispatch = useAppDispatch()
-		const isAppMakeRequest = useAppSelector(getIsAppAppMakingRequest)
-		const [isArrowDown, setIsArrowDown] = useState(true)
+		const [isArrowDown, setIsArrowDown] = useState(false)
+		const {sortPacks} = useAppSelector(getPacksSearchParams)
+		const [isActive, setIsActive] = useState(sortPacks.substring(1) === sortName)
 
-		const onChangeSortPacks = () => {
+		const onClickSortPacks = () => {
+				setIsActive(true)
+				if (!isActive) {
+						dispatch(setPackSearchParams({sortPacks: isArrowDown ? `1${sortName}` : `0${sortName}`}))
+						return
+				}
 				setIsArrowDown(!isArrowDown)
-				dispatch(setPackSearchParams({sortPacks: isArrowDown ? `1${sortName}` : `0${sortName}`}))
+				dispatch(setPackSearchParams({sortPacks: isArrowDown ? `0${sortName}` : `1${sortName}`}))
 		}
+
+		useEffect(() => {
+				if (sortPacks.substring(1) === sortName) {
+						setIsActive(true)
+				} else {
+						setIsActive(false)
+				}
+		}, [sortPacks])
 
 		return (
 				<TableCell sx={{width}}>
-						{name}
-						<Checkbox icon={<ArrowDropDownIcon/>}
-						          color="default"
-						          onChange={onChangeSortPacks}
-						          disabled={isAppMakeRequest}
-						          checkedIcon={<ArrowDropUpIcon/>}/>
+						<TableSortLabel onClick={onClickSortPacks}
+						                active={isActive}
+						                direction={isArrowDown ? 'desc' : 'asc'}>
+								{name}
+						</TableSortLabel>
 				</TableCell>
 		)
 }
