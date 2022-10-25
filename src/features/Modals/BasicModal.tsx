@@ -28,6 +28,7 @@ export const BasicModal = ({title, children, open, ...props}: PropsType) => {
 
 		return (
 				<Modal open={open}
+				       sx={{zIndex: 9}}
 				       onClose={props.handleClose}>
 						<Box sx={style}>
 								<div style={{
