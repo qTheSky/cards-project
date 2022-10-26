@@ -9,58 +9,65 @@ import {getAuthUserId} from 'features/Profile/selectors';
 import {getPacksSearchParams} from 'features/Packs/selectors';
 
 export const PackFiltration = () => {
-		const dispatch = useAppDispatch()
-		const authUserId = useAppSelector(getAuthUserId)
-		const {user_id, packName} = useAppSelector(getPacksSearchParams)
-		const [packNameSearch, setPackNameSearch] = useState<string>(packName)
-		const debouncedValue = useDebounce<string>(packNameSearch, 1000)
+    const dispatch = useAppDispatch()
+    const authUserId = useAppSelector(getAuthUserId)
+    const {user_id, packName} = useAppSelector(getPacksSearchParams)
+    const [packNameSearch, setPackNameSearch] = useState<string>(packName)
+    const debouncedValue = useDebounce<string>(packNameSearch, 1000)
 
-		const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-				setPackNameSearch(event.target.value)
-		}
+    const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setPackNameSearch(event.target.value)
+    }
 
-		const onClearFiltersClick = () => {
-				dispatch(clearPackSearchParams())
-		}
+    const onClearFiltersClick = () => {
+        dispatch(clearPackSearchParams())
+    }
 
-		const onClickMyPacks = () => {
-				dispatch(setPackSearchParams({user_id: authUserId, page: 1}))
-		}
+    const onClickMyPacks = () => {
+        dispatch(setPackSearchParams({user_id: authUserId, page: 1}))
+    }
 
-		const onClickAllPacks = () => {
-				dispatch(setPackSearchParams({user_id: '', page: 1}))
-		}
+    const onClickAllPacks = () => {
+        dispatch(setPackSearchParams({user_id: '', page: 1}))
+    }
 
-		useEffect(() => {
-				//when click clear filters clear packName input
-				if (packName === '') {
-						setPackNameSearch('')
-				}
-		}, [packName])
+    useEffect(() => {
+        //when click clear filters clear packName input
+        if (packName === '') {
+            setPackNameSearch('')
+        }
+    }, [packName])
 
-		useEffect(() => {
-				dispatch(setPackSearchParams({packName: debouncedValue}))
-		}, [debouncedValue])
+    useEffect(() => {
+        dispatch(setPackSearchParams({packName: debouncedValue}))
+    }, [debouncedValue])
 
-		return (
-				<div style={{display: 'flex', gap: '5px', justifyContent: 'space-between', alignItems: 'center'}}>
-						<TextField value={packNameSearch}
-						           onChange={onInputChange}
-						           size="small"
-						           label="Pack name"
-						/>
-						<div>
-								<div style={{fontSize: '14px', fontWeight: '500'}}>Show packs cards</div>
-								<Button variant={authUserId === user_id ? 'contained' : 'outlined'}
-								        onClick={onClickMyPacks}>My</Button>
-								<Button variant={authUserId === user_id ? 'outlined' : 'contained'}
-								        onClick={onClickAllPacks}>All</Button>
-						</div>
-						<FiltrationPackRange/>
-						<IconButton sx={{backgroundColor: 'white', border: '2px solid gray'}}
-						            onClick={onClearFiltersClick}>
-								<FilterAltOffIcon/>
-						</IconButton>
-				</div>
-		);
+    return (
+        <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '5px',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+        }}>
+            <TextField value={packNameSearch}
+                       onChange={onInputChange}
+                       size="small"
+                       label="Pack name"
+            />
+            <div>
+                <div style={{fontSize: '14px', fontWeight: '500'}}>Show packs cards</div>
+                <Button variant={authUserId === user_id ? 'contained' : 'outlined'}
+                        sx={{borderRadius: '15px'}}
+                        onClick={onClickMyPacks}>My</Button>
+                <Button variant={authUserId === user_id ? 'outlined' : 'contained'}
+                        sx={{borderRadius: '15px'}}
+                        onClick={onClickAllPacks}>All</Button>
+            </div>
+            <FiltrationPackRange/>
+            <IconButton onClick={onClearFiltersClick}>
+                <FilterAltOffIcon/>
+            </IconButton>
+        </div>
+    );
 };
