@@ -49,46 +49,46 @@ export const editPack = createAsyncThunk('packs/editPack',
 		})
 
 export const slice = createSlice({
-		name: 'packs',
-		initialState: {
-				packsState: {
-						cardPacks: [] as PackType[],
-				} as GetPackResponse,
-				searchParams: {
-						page: 1,
-						pageCount: 10,
-						max: 0,
-						min: 0,
-						packName: '',
-						user_id: '',
-						sortPacks: '0updated',
-				} as PacksSearchParams,
-		},
-		reducers: {
-				setPackSearchParams(state, action: PayloadAction<SetPackSearchParamsType>) {
-						state.searchParams = {...state.searchParams, ...action.payload}
-				},
-				clearPackSearchParams(state) {
-						state.searchParams = {...slice.getInitialState().searchParams, max: state.packsState.maxCardsCount}
-				},
-		},
-		extraReducers: builder => {
-				builder
-						.addCase(fetchPacks.fulfilled, (state, action: PayloadAction<GetPackResponse>) => {
-								state.packsState = action.payload
-						})
-		}
+    name: 'packs',
+    initialState: {
+        packsState: {
+            cardPacks: [] as PackType[],
+        } as GetPackResponse,
+        searchParams: {
+            page: 1,
+            pageCount: 10,
+            max: 0,
+            min: 0,
+            packName: '',
+            user_id: '',
+            sortPacks: '0updated',
+        } as PacksSearchParams,
+    },
+    reducers: {
+        setPackSearchParams(state, action: PayloadAction<SetPackSearchParamsType>) {
+            state.searchParams = {...state.searchParams, ...action.payload}
+        },
+        clearPackSearchParams(state) {
+            state.searchParams = {...slice.getInitialState().searchParams}
+        },
+    },
+    extraReducers: builder => {
+        builder
+            .addCase(fetchPacks.fulfilled, (state, action: PayloadAction<GetPackResponse>) => {
+                state.packsState = action.payload
+            })
+    }
 })
 export const {setPackSearchParams, clearPackSearchParams} = slice.actions
 export const packReducer = slice.reducer
 
 
 export type SetPackSearchParamsType = {
-		packName?: string
-		min?: number
-		max?: number
-		sortPacks?: string
-		page?: number
-		pageCount?: number
-		user_id?: string
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
 }
