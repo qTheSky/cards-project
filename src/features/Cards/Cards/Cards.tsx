@@ -57,7 +57,14 @@ export const Cards = ({switchIsSearching}: IProps) => {
 										{isOwner && <PackOwnerMenu/>}
 								</div>
 								{isOwner
-										? <AddCardModal/>
+										? <div style={{display: 'flex', flexDirection: 'column', gap: '5px'}}>
+												<Link to={PATH.learn + packId}>
+														<Button color="success" variant="contained">
+																Learn to pack
+														</Button>
+												</Link>
+												<AddCardModal/>
+										</div>
 										: <Link to={PATH.learn + packId}><Button variant="contained">Learn to pack</Button></Link>
 								}
 						</div>

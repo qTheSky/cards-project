@@ -9,6 +9,7 @@ import {Cards} from 'features/Cards/Cards/Cards';
 import {PATH} from 'app/RouteVariables';
 import {getCardsSearchParams, getCardsTotalCount, getPackName} from 'features/Cards/selectors';
 import {getIsLoggedIn} from 'features/Auth/selectors';
+import {getIsAppAppMakingRequest} from 'app/selectors';
 
 export const CardsPage = () => {
 		const {packId} = useParams() as { packId: string }
@@ -17,6 +18,7 @@ export const CardsPage = () => {
 		const isLoggedIn = useAppSelector(getIsLoggedIn)
 		const {page, pageCount, cardQuestion} = useAppSelector(getCardsSearchParams)
 		const packName = useAppSelector(getPackName)
+		const isAppMakeRequest = useAppSelector(getIsAppAppMakingRequest)
 		const [isSearching, setIsSearching] = useState(false)
 
 		useEffect(() => {
@@ -32,14 +34,13 @@ export const CardsPage = () => {
 				}
 		}, [])
 
-
 		if (!isLoggedIn) return <Navigate to={PATH.login}/>
 		if (!packName) return <Container><BackToPackListLink/></Container>
 		return (
 				<div>
 						<Container>
 								<BackToPackListLink/>
-								{cardsTotalCount > 0 || isSearching
+								{cardsTotalCount > 0 || isSearching || isAppMakeRequest
 										? <Cards switchIsSearching={setIsSearching}/>
 										: <EmptyCards/>}
 						</Container>

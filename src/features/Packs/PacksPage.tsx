@@ -9,7 +9,7 @@ import {PackFiltration} from 'features/Packs/Packs/PackFiltration/PackFiltration
 import {AddPackModal} from 'features/Packs/PacksModals/AddPackModal';
 import {getPacksSearchParams} from 'features/Packs/selectors';
 import {getIsLoggedIn} from 'features/Auth/selectors';
-import {parseSearchParamsFromURL} from "../../utils/parseSearchParamsFromURL";
+import {parseSearchParamsFromURL} from 'utils/parseSearchParamsFromURL';
 
 export const PacksPage = () => {
     const dispatch = useAppDispatch()

@@ -1,22 +1,10 @@
 import React from 'react';
-import {
-		Paper,
-		Rating,
-		Table,
-		TableBody,
-		TableCell,
-		TableContainer,
-		TableHead,
-		TablePagination,
-		TableRow
-} from '@mui/material';
-import dayjs from 'dayjs';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from '@mui/material';
 import {useAppDispatch, useAppSelector} from 'app/store';
 import {setCardsSearchParams} from 'features/Cards/cards-reducer';
-import {EditCardModal} from '../CardsModals/EditCardModal';
 import {getCards, getCardsSearchParams, getCardsTotalCount, getPackOwnerId} from 'features/Cards/selectors';
 import {getAuthUserId} from 'features/Profile/selectors';
-import {DeleteCardModal} from 'features/Cards/CardsModals/DeleteCardModal';
+import {MappedCard} from 'features/Cards/Cards/MappedCard';
 
 export const CardsTable = () => {
 		const dispatch = useAppDispatch()
@@ -47,57 +35,27 @@ export const CardsTable = () => {
 								</TableHead>
 
 								<TableBody>
-										{cards.map(card => (
-												<TableRow key={card._id} sx={{verticalAlign: 'top'}}>
-														<TableCell>
-																<div style={{display: 'flex', alignItems: 'start'}}>
-																		{card.questionImg &&
-																				<img style={{width: '150px', height: '36px'}}
-																				     src={card.questionImg}
-																				     alt="questionImg"/>
-																		}
-																		{card.question !== 'no question' && <span>{card.question}</span>}
-																</div>
 
-														</TableCell>
-														<TableCell>
-																{card.answerImg &&
-																		<img style={{width: '150px', height: '36px'}}
-																		     src={card.answerImg}
-																		     alt="answerImg"/>
-																}
-																{card.answer !== 'no answer' && <span>{card.answer}</span>}
-														</TableCell>
-														<TableCell>{dayjs(card.updated).format('DD.MM.YYYY')}</TableCell>
-														<TableCell><Rating value={card.grade} readOnly/></TableCell>
-														{isOwner &&
-																<TableCell>
-																		<div style={{display: 'flex'}}>
-																				<EditCardModal cardId={card._id}
-																				               questionImg={card.questionImg}
-																				               answer={card.answer}
-																				               question={card.question}/>
-																				<DeleteCardModal cardId={card._id}
-																				                 cardName={card.answer}/>
-																		</div>
-																</TableCell>
-														}
-												</TableRow>
-										))}
-										{cards.length > 0 &&
-												<TableRow>
-														<TablePagination labelRowsPerPage="Cards per page"
-														                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
-														                 count={cardsTotalCount}
-														                 rowsPerPage={pageCount}
-														                 page={page - 1}
-														                 onPageChange={onPageChange}
-														                 onRowsPerPageChange={onRowsPerPageChange}
-														/>
-												</TableRow>
+										{cards.map(card => <MappedCard isOwner={isOwner} card={card}/>)}
+
+										{!!cardsTotalCount && <TableRow>
+												<TablePagination labelRowsPerPage="Cards per page"
+												                 rowsPerPageOptions={[5, 10, 25, 50, 100]}
+												                 count={cardsTotalCount}
+												                 rowsPerPage={pageCount}
+												                 page={page - 1}
+												                 onPageChange={onPageChange}
+												                 onRowsPerPageChange={onRowsPerPageChange}
+												/>
+										</TableRow>
 										}
 								</TableBody>
 						</Table>
+						{cardsTotalCount === 0 &&
+								<div style={{textAlign: 'center', color: 'gray', fontSize: '30px'}}>
+										No results, try to use other
+										params</div>
+						}
 				</TableContainer>
-		);
-};
+		)
+}
