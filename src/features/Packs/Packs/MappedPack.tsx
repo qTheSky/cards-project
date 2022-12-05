@@ -51,12 +51,10 @@ export const MappedPack = ({pack}: IProps) => {
 								<EditPackModal packName={pack.name}
 								               deckCover={pack.deckCover}
 								               isPrivatePack={pack.private}
-								               view="packs"
 								               packId={pack._id}
 								               disabled={pack.user_id !== authUserId}/>
 								<DeletePackModal packId={pack._id}
 								                 packName={pack.name}
-								                 view="packs"
 								                 disabled={pack.user_id !== authUserId}/>
 						</TableCell>
 
